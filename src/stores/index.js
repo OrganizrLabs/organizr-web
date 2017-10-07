@@ -4,11 +4,13 @@ import { Provider } from 'mobx-react';
 
 // stores
 import UiStore from './UiStore';
+import UserStore from './UserStore';
 
 const ui = new UiStore();
+const user = new UserStore();
 
 const StoreProvider = ({ children }: { children: React.Node }) =>
-  <Provider ui={ui}>
+  <Provider ui={ui} user={user}>
     {children}
   </Provider>;
 

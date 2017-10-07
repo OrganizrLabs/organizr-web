@@ -1,8 +1,8 @@
 // @flow
 import * as React from 'react';
-import { Flex } from 'reflexbox';
 import { observer } from 'mobx-react';
 import DashboardStore from './DashboardStore';
+import Layout from 'components/Layout';
 
 type Props = {};
 
@@ -16,11 +16,7 @@ class Dashboard extends React.Component<Props> {
   }
 
   render() {
-    return (
-      <Flex auto justify="center" column>
-        Hello world
-      </Flex>
-    );
+    return <Layout>Hello world</Layout>;
   }
 }
 

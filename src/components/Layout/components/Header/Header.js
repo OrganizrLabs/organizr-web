@@ -3,58 +3,42 @@ import * as React from 'react';
 import { inject, observer } from 'mobx-react';
 import { withRouter } from 'react-router';
 import { type RouterHistory } from 'react-router-dom';
-import { Menu, Button, Icon, Input } from 'semantic-ui-react';
+import { Menu, Icon } from 'antd';
 import UiStore from 'stores/UiStore';
-import styled from 'styled-components';
 
 type Props = {
   history: RouterHistory,
-  ui: UiStore,
+  location: Object,
+  ui: UiStore
 };
 
 @observer
 class Header extends React.Component<Props> {
-  handleMenuClick = () => {
-    const { ui } = this.props;
-    if (ui.sidebarOpen) {
-      ui.closeSidebar();
-    } else {
-      ui.openSidebar();
-    }
+  handleClick = (e: Object) => {
+    this.props.history.push(e.key);
   };
 
   render() {
-    const { history } = this.props;
-    const goToDashboard = () => history.push('/dashboard');
+    const { location } = this.props;
+    console.log(location.pathname);
     return (
-      <ApplicationMenu color="teal" inverted>
-        <MenuButton color="teal" icon onClick={this.handleMenuClick}>
-          <Icon name="bars" />
-        </MenuButton>
-        <Menu.Item
-          name="Dashboard"
-          active={false}
-          content="Dashboard"
-          onClick={goToDashboard}
-        />
-
-        <Menu.Menu position="right">
-          <Menu.Item>
-            <Input icon="search" placeholder="Search..." />
-          </Menu.Item>
-        </Menu.Menu>
-      </ApplicationMenu>
+      <Menu
+        onClick={this.handleClick}
+        selectedKeys={[location.pathname]}
+        mode="horizontal"
+      >
+        <Menu.Item key="/dashboard">
+          <Icon type="appstore" />
+          Dashboard
+        </Menu.Item>
+        <Menu.Item key="/settings">
+          <Icon type="setting" />
+          Settings
+        </Menu.Item>
+      </Menu>
     );
   }
 }
-
-const MenuButton = styled(Button)`
-  border-radius: 0 !important;  
-`;
-
-const ApplicationMenu = styled(Menu)`
-  border-radius: 0 !important;  
-`;
 
 export { Header };
 export default inject('ui')(withRouter(Header));
