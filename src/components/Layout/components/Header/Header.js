@@ -6,6 +6,7 @@ import { type RouterHistory } from 'react-router-dom';
 import { Menu, Icon } from 'antd';
 import UiStore from 'stores/UiStore';
 import styled from 'styled-components';
+import UserDropdown from './components/UserDropdown';
 
 type Props = {
   history: RouterHistory,
@@ -36,10 +37,15 @@ class Header extends React.Component<Props> {
           <Icon type="setting" />
           Settings
         </Menu.Item>
+        <StyledUserDropdown />
       </HeaderMenu>
     );
   }
 }
+
+const StyledUserDropdown = styled(UserDropdown)`
+  float: right;
+`;
 
 const HeaderMenu = styled(Menu)`
   padding: 0 30px;

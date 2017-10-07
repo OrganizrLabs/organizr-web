@@ -3,6 +3,8 @@ import { postRequest } from 'helpers/api';
 
 class UserStore {
   @observable loggedIn: boolean = false;
+  @observable name: string = 'Default User';
+  @observable email: string = 'user@example.com';
 
   @action
   signUp = async (options: {
@@ -38,12 +40,26 @@ class UserStore {
         else {
           sessionStorage.setItem('jwtToken', res.data.token);
           this.loggedIn = true;
+          this.name = res.data.user.name;
+          this.email = res.data.user.email;
           resolve(res);
         }
       } catch (err) {
         reject(err);
       }
     });
+  };
+
+  @action
+  logout = async (): Promise<*> => {
+    if (!this.loggedIn) {
+      console.error('User is not logged in');
+    }
+    sessionStorage.setItem('jwtToken', '');
+    this.loggedIn = false;
+    this.name = '';
+    this.email = '';
+    window.location = '/login';
   };
 }
 
