@@ -3,18 +3,26 @@ import * as React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import registerServiceWorker from './registerServiceWorker';
-import StoreProvider from 'stores';
+import StoreProvider, { user } from 'stores';
 
 // routes
 import Dashboard from 'scenes/Dashboard';
 import Login from 'scenes/Login';
 import SignUp from 'scenes/SignUp';
 
+const requireAuth = (nextState, replace) => {
+  if (!user.loggedIn) {
+    replace({
+      pathname: '/login'
+    });
+  }
+};
+
 ReactDOM.render(
   <StoreProvider>
     <Router>
       <div>
-        <Route path="/dashboard" component={Dashboard} />
+        <Route path="/dashboard" component={Dashboard} onEnter={requireAuth} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={SignUp} />
       </div>

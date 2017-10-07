@@ -6,8 +6,8 @@ import { Provider } from 'mobx-react';
 import UiStore from './UiStore';
 import UserStore from './UserStore';
 
-const ui = new UiStore();
-const user = new UserStore();
+export const ui = new UiStore();
+export const user = new UserStore();
 
 const StoreProvider = ({ children }: { children: React.Node }) =>
   <Provider ui={ui} user={user}>

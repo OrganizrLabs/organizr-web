@@ -7,6 +7,9 @@ const baseUrl = 'http://localhost:3001';
 
 // https://stackoverflow.com/questions/111529/how-to-create-query-parameters-in-javascript
 const encodeUrl = (url, params) => {
+  if (Object.keys(params).length === 0 && params.constructor === Object) {
+    return url;
+  }
   let ret = [];
   for (let d in params)
     ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(params[d]));
@@ -17,7 +20,7 @@ export const getRequest = (url, params, options): Promise<*> => {
   const path = baseUrl + encodeUrl(url, params);
   return new Promise((resolve, reject) => {
     const token = sessionStorage.getItem('jwtToken');
-    if (!options.skipAuth && (!token || token === '')) {
+    if ((!options || !options.skipAuth) && (!token || token === '')) {
       reject(new Error('No token found'));
     }
     fetch(path, {
@@ -35,7 +38,7 @@ export const postRequest = (url, params, options): Promise<*> => {
   const path = baseUrl + url;
   return new Promise((resolve, reject) => {
     const token = sessionStorage.getItem('jwtToken');
-    if (!options.skipAuth && (!token || token === '')) {
+    if ((!options || !options.skipAuth) && (!token || token === '')) {
       reject(new Error('No token found'));
     }
     fetch(path, {

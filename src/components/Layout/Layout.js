@@ -7,22 +7,17 @@ import styled from 'styled-components';
 
 type Props = {
   children: React.Node,
-  className?: string,
+  className?: string
 };
 
 const Layout = ({ children, className }: Props) =>
   <Flex column>
     <Header />
-    <Content justify="center" className={className}>
+    <Flex justify="center" className={className}>
       {children}
-    </Content>
+    </Flex>
     <Footer />
   </Flex>;
-
-const Content = styled(Flex)`
-  max-width: 1250px;
-  margin: auto;
-`;
 
 export { Layout };
 export default Layout;

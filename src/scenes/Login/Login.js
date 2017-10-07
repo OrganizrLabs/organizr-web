@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { colors } from 'constants/styles';
 import LoginStore from './LoginStore';
 import UserStore from 'stores/UserStore';
+import banner from 'assets/banner.jpg';
 
 const FormItem = Form.Item;
 const store = new LoginStore();
@@ -36,8 +37,14 @@ class Login extends React.Component<Props> {
     const { getFieldDecorator } = this.props.form;
     return (
       <FullHeight auto justify="center">
-        <Banner auto />
+        <Banner justify="center" align="center" auto>
+          <BannerImage src={banner} alt="banner" />
+          <BannerTextContainer>
+            <BannerText>Welcome to AtLarge</BannerText>
+          </BannerTextContainer>
+        </Banner>
         <LoginForm onSubmit={this.handleSubmit}>
+          <UserIcon type="user" style={{ fontSize: 60 }} />
           <FormItem>
             {getFieldDecorator('email', {
               rules: [{ required: true, message: 'Please input your email!' }]
@@ -80,10 +87,35 @@ class Login extends React.Component<Props> {
   }
 }
 
+const UserIcon = styled(Icon)`
+  margin-bottom: 30px;
+`;
+
+const BannerImage = styled.img`
+  object-fit: cover;
+  flex-shrink: 0;
+  min-width: 100%;
+  min-height: 100%;
+  filter: blur(3px);
+`;
+
+const BannerTextContainer = styled(Flex)`
+  position: absolute;
+`;
+
+const BannerText = styled.h1`
+  color: #fff;
+  font-size: 5rem;
+`;
+
 const CreateAccountLink = styled.a`margin-left: 6px;`;
 
 const LoginForm = styled(Form)`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   padding: 25px;
+  min-width: 300px;
 `;
 
 const FullHeight = styled(Flex)`
@@ -92,6 +124,8 @@ const FullHeight = styled(Flex)`
 
 const Banner = styled(Flex)`
   background-color: ${colors.teal};
+  overflow: hidden
+  position: relative;
 `;
 
 export { Login };

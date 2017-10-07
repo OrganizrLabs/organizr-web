@@ -9,6 +9,7 @@ import { withRouter } from 'react-router';
 import { colors } from 'constants/styles';
 import UserStore from 'stores/UserStore';
 import SignUpStore from './SignUpStore';
+import banner from 'assets/banner.jpg';
 
 const FormItem = Form.Item;
 // instantiate outside of component context because rc-form is sketch af
@@ -35,8 +36,14 @@ class SignUp extends React.Component<Props> {
     const { getFieldDecorator } = this.props.form;
     return (
       <FullHeight auto justify="center">
-        <Banner auto />
+        <Banner auto justify="center" align="center">
+          <BannerImage src={banner} alt="banner" />
+          <BannerTextContainer>
+            <BannerText>Welcome to AtLarge</BannerText>
+          </BannerTextContainer>
+        </Banner>
         <SignUpForm onSubmit={this.handleSubmit}>
+          <UserIcon type="user-add" style={{ fontSize: 60 }} />
           <FormItem>
             {getFieldDecorator('name', {
               rules: [{ required: true, message: 'Please input your name!' }]
@@ -83,8 +90,33 @@ class SignUp extends React.Component<Props> {
   }
 }
 
+const UserIcon = styled(Icon)`
+  margin-bottom: 30px;
+`;
+
+const BannerImage = styled.img`
+  object-fit: cover;
+  flex-shrink: 0;
+  min-width: 100%;
+  min-height: 100%;
+  filter: blur(3px);
+`;
+
+const BannerTextContainer = styled(Flex)`
+  position: absolute;
+`;
+
+const BannerText = styled.h1`
+  color: #fff;
+  font-size: 5rem;
+`;
+
 const SignUpForm = styled(Form)`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   padding: 25px;
+  min-width: 300px;
 `;
 
 const FullHeight = styled(Flex)`

@@ -1,7 +1,9 @@
-import { action } from 'mobx';
+import { observable, action } from 'mobx';
 import { postRequest } from 'helpers/api';
 
 class UserStore {
+  @observable loggedIn: boolean = false;
+
   @action
   signUp = async (options: {
     name: string,
@@ -35,6 +37,7 @@ class UserStore {
         if (res.error) reject(res.error);
         else {
           sessionStorage.setItem('jwtToken', res.data.token);
+          this.loggedIn = true;
           resolve(res);
         }
       } catch (err) {

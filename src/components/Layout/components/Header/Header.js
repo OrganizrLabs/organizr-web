@@ -5,6 +5,7 @@ import { withRouter } from 'react-router';
 import { type RouterHistory } from 'react-router-dom';
 import { Menu, Icon } from 'antd';
 import UiStore from 'stores/UiStore';
+import styled from 'styled-components';
 
 type Props = {
   history: RouterHistory,
@@ -22,7 +23,7 @@ class Header extends React.Component<Props> {
     const { location } = this.props;
     console.log(location.pathname);
     return (
-      <Menu
+      <HeaderMenu
         onClick={this.handleClick}
         selectedKeys={[location.pathname]}
         mode="horizontal"
@@ -35,10 +36,14 @@ class Header extends React.Component<Props> {
           <Icon type="setting" />
           Settings
         </Menu.Item>
-      </Menu>
+      </HeaderMenu>
     );
   }
 }
+
+const HeaderMenu = styled(Menu)`
+  padding: 0 30px;
+`;
 
 export { Header };
 export default inject('ui')(withRouter(Header));
