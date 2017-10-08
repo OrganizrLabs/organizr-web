@@ -11,13 +11,17 @@ type Props = {
 };
 
 const Layout = ({ children, className }: Props) =>
-  <Flex column>
+  <Background column>
     <Header />
     <Flex justify="center" className={className}>
       {children}
     </Flex>
     <Footer />
-  </Flex>;
+  </Background>;
+
+const Background = styled(Flex)`
+  background: #f7f7f7;
+`;
 
 export { Layout };
 export default Layout;

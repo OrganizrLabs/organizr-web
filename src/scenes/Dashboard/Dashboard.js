@@ -62,6 +62,9 @@ class Dashboard extends React.Component<Props> {
 
 const FlexTable = styled(Table)`
   margin: 30px;
+  .ant-table {
+    background: #fff;
+  }
 `;
 
 export { Dashboard };

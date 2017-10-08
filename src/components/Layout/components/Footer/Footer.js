@@ -25,7 +25,7 @@ class Footer extends React.Component<Props> {
             <a onClick={goToSettings}>Settings</a>
           </Breadcrumb.Item>
           <Breadcrumb.Item>
-            <a href="#">Somewhere else</a>
+            <a>Somewhere else</a>
           </Breadcrumb.Item>
         </Breadcrumb>
       </FooterLinks>
@@ -35,6 +35,8 @@ class Footer extends React.Component<Props> {
 
 const FooterLinks = styled(Flex)`
   margin: 0 30px;
+  padding: 15px 0;
+  border-top: 1px solid #d6d6d6;
 `;
 
 export { Footer };
