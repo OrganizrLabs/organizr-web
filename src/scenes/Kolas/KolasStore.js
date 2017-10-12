@@ -2,7 +2,7 @@
 import { observable, action } from 'mobx';
 import { getRequest } from 'helpers/api';
 
-class DashboardStore {
+class KolasStore {
   @observable teams: Object[] = [];
 
   @action
@@ -18,4 +18,4 @@ class DashboardStore {
   };
 }
 
-export default DashboardStore;
+export default KolasStore;

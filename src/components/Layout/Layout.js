@@ -7,12 +7,13 @@ import styled from 'styled-components';
 
 type Props = {
   children: React.Node,
+  subheader?: React.Node,
   className?: string
 };
 
-const Layout = ({ children, className }: Props) =>
+const Layout = ({ children, subheader, className }: Props) =>
   <Background column>
-    <Header />
+    <Header subheader={subheader} />
     <Flex justify="center" className={className}>
       {children}
     </Flex>

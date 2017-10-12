@@ -23,7 +23,7 @@ class LoginStore {
       if (res.error) {
         console.error(res.error);
       } else {
-        history.push('/dashboard');
+        history.push('/kolas');
       }
     } catch (err) {
       console.error(err);

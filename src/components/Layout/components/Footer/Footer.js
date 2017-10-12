@@ -1,37 +1,43 @@
 // @flow
 import * as React from 'react';
-import { withRouter } from 'react-router';
 import { Breadcrumb } from 'antd';
-import { type RouterHistory } from 'react-router-dom';
+import { withRouter } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Flex } from 'reflexbox';
 import styled from 'styled-components';
 
 type Props = {
-  history: RouterHistory
+  location: Object
 };
 
-class Footer extends React.Component<Props> {
-  render() {
-    const { history } = this.props;
-    const goToDashoard = () => history.push('/dashboard');
-    const goToSettings = () => history.push('/settings');
-    return (
-      <FooterLinks>
-        <Breadcrumb>
-          <Breadcrumb.Item>
-            <a onClick={goToDashoard}>Dashboard</a>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item>
-            <a onClick={goToSettings}>Settings</a>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item>
-            <a>Somewhere else</a>
-          </Breadcrumb.Item>
-        </Breadcrumb>
-      </FooterLinks>
-    );
-  }
-}
+const Footer = ({ location }: Props) => {
+  const FooterLink = props =>
+    <StyledLink active={location.pathname === props.to} {...props}>
+      {props.children}
+    </StyledLink>;
+  return (
+    <FooterLinks>
+      <Breadcrumb>
+        <Breadcrumb.Item>
+          <FooterLink to="/kolas">Kolas Calculator</FooterLink>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <FooterLink to="/meets">Meets</FooterLink>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <FooterLink to="/teams">Team</FooterLink>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <FooterLink to="/regions">Region</FooterLink>
+        </Breadcrumb.Item>
+      </Breadcrumb>
+    </FooterLinks>
+  );
+};
+
+const StyledLink = styled(Link)`
+  ${({ active }) => active && `font-weight: bold;`}
+`;
 
 const FooterLinks = styled(Flex)`
   margin: 0 30px;
@@ -39,5 +45,4 @@ const FooterLinks = styled(Flex)`
   border-top: 1px solid #d6d6d6;
 `;
 
-export { Footer };
 export default withRouter(Footer);
