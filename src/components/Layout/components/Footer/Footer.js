@@ -19,16 +19,10 @@ const Footer = ({ location }: Props) => {
     <FooterLinks>
       <Breadcrumb>
         <Breadcrumb.Item>
-          <FooterLink to="/kolas">Kolas Calculator</FooterLink>
+          <FooterLink to="/timeline">Timeline</FooterLink>
         </Breadcrumb.Item>
         <Breadcrumb.Item>
-          <FooterLink to="/meets">Meets</FooterLink>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>
-          <FooterLink to="/teams">Team</FooterLink>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>
-          <FooterLink to="/regions">Region</FooterLink>
+          <FooterLink to="/media">Media</FooterLink>
         </Breadcrumb.Item>
       </Breadcrumb>
     </FooterLinks>

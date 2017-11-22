@@ -7,7 +7,7 @@ import { Menu, Icon } from 'antd';
 import { Flex } from 'reflexbox';
 import UiStore from 'stores/UiStore';
 import styled from 'styled-components';
-import UserDropdown from './components/UserDropdown';
+import mfsIcon from 'assets/mfs_icon.png';
 
 type Props = {
   history: RouterHistory,
@@ -36,34 +36,60 @@ class Header extends React.Component<Props> {
   render() {
     const { subheader } = this.props;
     return (
-      <Flex column>
-        <HeaderMenu selectedKeys={[this.getBasePath()]} mode="horizontal">
-          <HeaderItem key="/kolas">
-            <Icon type="appstore" />
-            <Link to="/kolas">Kolas Calculator</Link>
+      <HeaderWrapper justify="space-between">
+        <Flex align="center">
+          <MFSLogo src={mfsIcon} />
+          <Title>March For Science Dossier</Title>
+        </Flex>
+        <StyledMenu
+          selectedKeys={[this.getBasePath()]}
+          mode="horizontal"
+          theme="dark"
+        >
+          <HeaderItem key="/timeline">
+            <Icon type="clock-circle-o" />
+            <Link to="/timeline">Timeline</Link>
           </HeaderItem>
-          <HeaderItem key="/meets">
-            <Icon type="schedule" />
-            <Link to="/meets">Meets</Link>
+          <HeaderItem key="/media">
+            <Icon type="desktop" />
+            <Link to="/media">Media</Link>
           </HeaderItem>
-          <HeaderItem key="/teams">
-            <Icon type="team" />
-            <Link to="/teams">Teams</Link>
-          </HeaderItem>
-          <HeaderItem key="/regions">
-            <Icon type="flag" />
-            <Link to="/regions">Regions</Link>
-          </HeaderItem>
-          <StyledUserDropdown />
-        </HeaderMenu>
+        </StyledMenu>
         {subheader &&
           <SubHeader auto>
             {subheader}
           </SubHeader>}
-      </Flex>
+      </HeaderWrapper>
     );
   }
 }
+
+const StyledMenu = styled(Menu)`
+  background: #333333 !important;
+  .ant-menu-item {
+    height: 100%;
+  }
+  .ant-menu-item.ant-menu-item-selected {
+    background-color: inherit !important;
+    border-bottom: 3px solid #108ee9 !important;
+    color: #108ee9 !important;
+  }
+`;
+
+const Title = styled.h2`color: #fff;`;
+
+const HeaderWrapper = styled(Flex)`
+  background: #333333;
+  color: #fff;
+  padding: 0 30px;
+  height: 75px;
+`;
+
+const MFSLogo = styled.img`
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+`;
 
 const SubHeader = styled(Flex)`
   background: #404040;
@@ -76,14 +102,6 @@ const HeaderItem = styled(Menu.Item)`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-`;
-
-const StyledUserDropdown = styled(UserDropdown)`
-  float: right;
-`;
-
-const HeaderMenu = styled(Menu)`
-  padding: 0 30px;
 `;
 
 export { Header };

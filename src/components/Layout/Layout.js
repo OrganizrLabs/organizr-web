@@ -14,14 +14,20 @@ type Props = {
 const Layout = ({ children, subheader, className }: Props) =>
   <Background column>
     <Header subheader={subheader} />
-    <Flex justify="center" className={className}>
+    <Panel justify="center" className={className}>
       {children}
-    </Flex>
+    </Panel>
     <Footer />
   </Background>;
 
 const Background = styled(Flex)`
-  background: #f7f7f7;
+  background: #f0f2f5;
+`;
+
+const Panel = styled(Flex)`
+  margin: 20px 35px;
+  background: #fff;
+  border-radius: 5px;
 `;
 
 export { Layout };
