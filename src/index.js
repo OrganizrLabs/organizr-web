@@ -14,7 +14,7 @@ import Media from 'scenes/Media';
 ReactDOM.render(
   <LocaleProvider locale={enUS}>
     <StoreProvider>
-      <Router>
+      <Router basename="/dossier/">
         <div>
           <Route exact path="/" component={Home} />
           <Route path="/timeline" component={Timeline} />
