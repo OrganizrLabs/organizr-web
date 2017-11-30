@@ -22,6 +22,15 @@ type ItemProps = {
   children: React.Node
 };
 
+const mapWithNewline = (text: string): React.Node =>
+  text.split('\n').map(function(item, key) {
+    return (
+      <ListItem key={key}>
+        {item.substring(2)}
+      </ListItem>
+    );
+  });
+
 const Link = ({ url }) => {
   const goToUrl = () => (window.location = url);
   return (
@@ -64,7 +73,7 @@ class Timeline extends React.Component<Props> {
           <Header>Movement's Timeline</Header>
           <StyledTimeline pending={<h3>To be continued...</h3>}>
             {media.timelineItems.map(
-              ({ datetime, title, image, link, description }, i) =>
+              ({ datetime, title, image, link, description, notes }, i) =>
                 <TimelineItem
                   time={datetime}
                   title={title}
@@ -73,6 +82,11 @@ class Timeline extends React.Component<Props> {
                   key={i}
                 >
                   {description}
+                  {notes &&
+                    notes.length > 0 &&
+                    <UnorderedList>
+                      {mapWithNewline(notes)}
+                    </UnorderedList>}
                 </TimelineItem>
             )}
           </StyledTimeline>
@@ -82,6 +96,11 @@ class Timeline extends React.Component<Props> {
   }
 }
 
+const ListItem = styled.li`
+  list-style-type: disc;
+  margin-left: 20px;
+`;
+
 const TimelineImage = styled.img`height: 200px;`;
 
 const LinkContainer = styled(Flex)`
@@ -90,6 +109,8 @@ const LinkContainer = styled(Flex)`
   border-right: 1px solid #d9d9d9;
   cursor: pointer;
 `;
+
+const UnorderedList = styled.ul`margin-top: 5px;`;
 
 const MFSIcon = styled.img`
   width: 22px;
