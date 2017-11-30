@@ -2,7 +2,7 @@
   "name": "oranizr",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://zacharyfmarion.github.io/dossier",
+  "homepage": "http://zacharyfmarion.io/dossier",
   "dependencies": {
     "antd": "^2.13.4",
     "autoprefixer": "7.1.2",
