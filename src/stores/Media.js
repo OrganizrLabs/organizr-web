@@ -20,8 +20,10 @@ class Media {
   get tags(): Map<string, number> {
     let tags = new Map();
     for (let item of this.media) {
-      for (let tag of item.tags) {
-        tags.set(tag, tags.get(tag) + 1 || 1);
+      if (item.tags) {
+        for (let tag of item.tags) {
+          tags.set(tag, tags.get(tag) + 1 || 1);
+        }
       }
     }
     return tags || [];

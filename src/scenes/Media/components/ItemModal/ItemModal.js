@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Modal, Tag } from 'antd';
 import { Flex } from 'reflexbox';
 import styled from 'styled-components';
+import placeholder from 'assets/placeholder.png';
 
 type Props = {
   item: Object,
@@ -21,34 +22,46 @@ class ItemModal extends React.Component<Props> {
   render() {
     const { item, onClose } = this.props;
     return (
-      <Modal
+      <StyledModal
         title={item.title}
         visible
         footer={null}
         onOk={onClose}
         onCancel={onClose}
       >
-        {item.image &&
-          <ImageWrapper>
-            <ModalImage src={item.image} alt="Media Item" />
-            <Tags align="center">
-              {item.tags.map((tag, i) =>
+        <ImageWrapper>
+          <ModalImage src={item.image || placeholder} alt="Media Item" />
+          <Tags align="center">
+            {item.tags &&
+              item.tags.map((tag, i) =>
                 <Tag key={i}>
                   {tag}
                 </Tag>
               )}
-            </Tags>
-          </ImageWrapper>}
-        {item.description}
-        {item.notes &&
-          item.notes.length > 0 &&
-          <UnorderedList>
-            {mapWithNewline(item.notes)}
-          </UnorderedList>}
-      </Modal>
+          </Tags>
+        </ImageWrapper>
+        <PaddedFlex column>
+          {item.description}
+          {item.notes &&
+            item.notes.length > 0 &&
+            <UnorderedList>
+              {mapWithNewline(item.notes)}
+            </UnorderedList>}
+        </PaddedFlex>
+      </StyledModal>
     );
   }
 }
+
+const PaddedFlex = styled(Flex)`
+  padding: 10px 25px;
+`;
+
+const StyledModal = styled(Modal)`
+  .ant-modal-body {
+    padding: 0;
+  }
+`;
 
 const UnorderedList = styled.ul`margin-top: 5px;`;
 

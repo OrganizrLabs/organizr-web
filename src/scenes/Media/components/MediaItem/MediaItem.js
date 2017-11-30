@@ -3,6 +3,7 @@ import { Card, Icon } from 'antd';
 import { Flex } from 'reflexbox';
 import styled from 'styled-components';
 import { type Media } from 'types/Media';
+import placeholder from 'assets/placeholder.png';
 
 type Props = {
   item: Media,
@@ -47,7 +48,7 @@ class MediaItem extends React.Component<Props> {
             blurred={this.state.linkVisible}
             alt="example"
             width="100%"
-            src={image}
+            src={image || placeholder}
           />
           {this.state.linkVisible &&
             <LinkWrapper justify="center" align="center">
@@ -77,6 +78,11 @@ const LinkIcon = styled(Icon)`
 
 const BackgroundImage = styled.img`
   border-bottom: 1px solid #eaeaea;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  width: 100%;
   ${({ blurred }) =>
     blurred &&
     `
@@ -106,6 +112,8 @@ const CardContent = styled.div`
 const ImageWrapper = styled.div`
   display: block;
   position: relative;
+  height: 120px;
+  overflow: hidden;
 `;
 
 export default MediaItem;

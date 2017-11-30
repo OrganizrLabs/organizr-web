@@ -9,6 +9,7 @@ const fontSizes = {
   normal: '14px',
   large: '18px',
   huge: '24px',
+  gigantic: '36px'
 };
 
 const colors = {
@@ -16,13 +17,13 @@ const colors = {
   yellow: '#fbbd08',
   lightgray: '#d4d4d5',
   white: '#ffffff',
-  black: '#000000',
+  black: '#000000'
 };
 
 const breakpoints = {
   desktop: 992,
   tablet: 768,
-  mobile: 0,
+  mobile: 0
 };
 
 export { colors, fontSizes, breakpoints };

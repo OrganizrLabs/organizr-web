@@ -32,6 +32,7 @@ class Media extends React.Component<Props> {
 
   filterFromTags = (item: Object) => {
     if (this.store.tagFilters.length === 0) return true;
+    if (!item.tags) return false;
     for (let tag of this.store.tagFilters) {
       if (item.tags.includes(tag)) return true;
     }

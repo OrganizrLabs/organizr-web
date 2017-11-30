@@ -8,6 +8,7 @@ import { LocaleProvider } from 'antd';
 import enUS from 'antd/lib/locale-provider/en_US';
 
 // routes
+import Home from 'scenes/Home';
 import Timeline from 'scenes/Timeline';
 import Media from 'scenes/Media';
 
@@ -16,7 +17,8 @@ ReactDOM.render(
     <StoreProvider>
       <Router>
         <div>
-          <Redirect from="/" exact to="/media" />
+          {/* <Redirect from="/" exact to="/media" /> */}
+          <Route exact path="/" component={Home} />
           <Route path="/timeline" component={Timeline} />
           <Route path="/media" component={Media} />
         </div>

@@ -38,14 +38,20 @@ class Header extends React.Component<Props> {
     return (
       <HeaderWrapper justify="space-between">
         <Flex align="center">
-          <MFSLogo src={mfsIcon} />
-          <Title>March For Science Dossier</Title>
+          <StyledLink to="/">
+            <MFSLogo src={mfsIcon} />
+            <Title>March For Science Dossier</Title>
+          </StyledLink>
         </Flex>
         <StyledMenu
           selectedKeys={[this.getBasePath()]}
           mode="horizontal"
           theme="dark"
         >
+          <HeaderItem key="/">
+            <Icon type="home" />
+            <Link to="/">Home</Link>
+          </HeaderItem>
           <HeaderItem key="/timeline">
             <Icon type="clock-circle-o" />
             <Link to="/timeline">Timeline</Link>
@@ -63,6 +69,12 @@ class Header extends React.Component<Props> {
     );
   }
 }
+
+const StyledLink = styled(Link)`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
 
 const StyledMenu = styled(Menu)`
   background: #333333 !important;
