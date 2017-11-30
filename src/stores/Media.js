@@ -31,10 +31,15 @@ class Media {
 
   @computed
   get timelineItems(): MediaType {
-    return this.media.filter(item => !!item.datetime).map(item => ({
-      ...item,
-      datetime: new Date(item.datetime).toDateString()
-    }));
+    return this.media
+      .filter(item => !!item.datetime)
+      .sort((a, b) => {
+        return new Date(a.datetime).getTime() - new Date(b.datetime).getTime();
+      })
+      .map(item => ({
+        ...item,
+        datetime: new Date(item.datetime).toDateString()
+      }));
   }
 
   @action
