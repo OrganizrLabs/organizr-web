@@ -1,8 +1,7 @@
 // @flow
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
-import registerServiceWorker from './registerServiceWorker';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import StoreProvider from 'stores';
 import { LocaleProvider } from 'antd';
 import enUS from 'antd/lib/locale-provider/en_US';
@@ -17,7 +16,6 @@ ReactDOM.render(
     <StoreProvider>
       <Router>
         <div>
-          {/* <Redirect from="/" exact to="/media" /> */}
           <Route exact path="/" component={Home} />
           <Route path="/timeline" component={Timeline} />
           <Route path="/media" component={Media} />
@@ -27,4 +25,4 @@ ReactDOM.render(
   </LocaleProvider>,
   document.getElementById('root')
 );
-registerServiceWorker();
+// registerServiceWorker();
