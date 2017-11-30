@@ -46,7 +46,6 @@ class Media {
         })
         .then(response => response.items);
       if (res) {
-        console.log(res);
         this.media = res.map(item => ({
           id: item.sys.id,
           ...item.fields,
