@@ -35,20 +35,26 @@ const Home = () =>
   <PaddedLayout>
     <Flex column>
       <Question size="gigantic">
-        Did the March for Science have the necessary network internalities in
-        place to effectively enact change following the day of protest?
+        Was the March for Science movement able to perform the necessary
+        tactical innovations to maintain momentum following the Earth Day march?
       </Question>
       <TopPaddedText margin={20}>
         In her book <i>Twitter and Tear Gas</i>, Tufekci discusses the effects
         of social media on the organization and durability of social movements.
         One of her central claims is that while social media has made it
-        incredbily easy to rally a large group of people around a movement, the
+        incredibly easy to rally a large group of people around a movement, the
         lack of "tedious work performed in the pre-internet era" has left many
         movements unacclimatized to the process of collective decision making
         which is crucial to the health and longevity of such a movement. In this
-        project my goal was to discover whether the necessary network
-        internalities existed in the March for Science movement, and to what
-        extent was .... <b>This is where my thesis statement will go.</b>
+        project my goal was to discover how my movement handled the transition
+        from the initial march to surviving afterwards despite completing the
+        march it set out to do.{' '}
+        <b>
+          From my research, I conclude that while the transition after the march
+          and avoidance of tactical freeze started strong, internal divisions
+          arising from weak network internalities and a stagnant use of social
+          media limited the disruptive capacity of the movement after the march.
+        </b>
       </TopPaddedText>
       <SubHeader>Media Theory</SubHeader>
       <Text>

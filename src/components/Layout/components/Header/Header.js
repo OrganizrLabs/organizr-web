@@ -3,7 +3,7 @@ import * as React from 'react';
 import { inject, observer } from 'mobx-react';
 import { withRouter } from 'react-router';
 import { Link, type RouterHistory } from 'react-router-dom';
-import { Menu, Icon } from 'antd';
+import { Menu, Button, Icon, Dropdown } from 'antd';
 import { Flex } from 'reflexbox';
 import UiStore from 'stores/UiStore';
 import styled from 'styled-components';
@@ -34,7 +34,27 @@ class Header extends React.Component<Props> {
   };
 
   render() {
-    const { subheader } = this.props;
+    const { subheader, ui } = this.props;
+    const menu = (
+      <StyledMenu
+        selectedKeys={[this.getBasePath()]}
+        mode="horizontal"
+        theme="dark"
+      >
+        <HeaderItem key="/" mobile={ui.isMobile}>
+          <Icon type="home" />
+          <Link to="/">Home</Link>
+        </HeaderItem>
+        <HeaderItem key="/timeline" mobile={ui.isMobile}>
+          <Icon type="clock-circle-o" />
+          <Link to="/timeline">Timeline</Link>
+        </HeaderItem>
+        <HeaderItem key="/media" mobile={ui.isMobile}>
+          <Icon type="desktop" />
+          <Link to="/media">Media</Link>
+        </HeaderItem>
+      </StyledMenu>
+    );
     return (
       <HeaderWrapper justify="space-between">
         <Flex align="center">
@@ -43,24 +63,11 @@ class Header extends React.Component<Props> {
             <Title>March For Science Dossier</Title>
           </StyledLink>
         </Flex>
-        <StyledMenu
-          selectedKeys={[this.getBasePath()]}
-          mode="horizontal"
-          theme="dark"
-        >
-          <HeaderItem key="/">
-            <Icon type="home" />
-            <Link to="/">Home</Link>
-          </HeaderItem>
-          <HeaderItem key="/timeline">
-            <Icon type="clock-circle-o" />
-            <Link to="/timeline">Timeline</Link>
-          </HeaderItem>
-          <HeaderItem key="/media">
-            <Icon type="desktop" />
-            <Link to="/media">Media</Link>
-          </HeaderItem>
-        </StyledMenu>
+        {ui.isMobile
+          ? <Dropdown overlay={menu}>
+              <DropdownButton icon="menu-fold" />
+            </Dropdown>
+          : menu}
         {subheader &&
           <SubHeader auto>
             {subheader}
@@ -69,6 +76,10 @@ class Header extends React.Component<Props> {
     );
   }
 }
+
+const DropdownButton = styled(Button)`
+  align-self: center;
+`;
 
 const StyledLink = styled(Link)`
   display: flex;
@@ -112,8 +123,19 @@ const SubHeader = styled(Flex)`
 const HeaderItem = styled(Menu.Item)`
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  ${({ mobile }) =>
+    mobile
+      ? `
+      justify-content: flex-start;
+    `
+      : `
+    justify-content: center;
+    align-items: center;
+  `}
+
+  i.anticon {
+    padding-right: 10px;
+  }
 `;
 
 export { Header };

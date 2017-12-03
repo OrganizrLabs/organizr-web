@@ -1,6 +1,7 @@
 // @flow
 import * as React from 'react';
 import MediaStore from './MediaStore';
+import UiStore from 'stores/UiStore';
 import { inject, observer } from 'mobx-react';
 import { Flex } from 'reflexbox';
 import Layout from 'components/Layout';
@@ -18,7 +19,8 @@ const { CheckableTag } = Tag;
 
 type Props = {
   client: Object,
-  media: GlobalMedia
+  media: GlobalMedia,
+  ui: UiStore
 };
 
 @observer
@@ -67,7 +69,7 @@ class Media extends React.Component<Props> {
   };
 
   render() {
-    const { media } = this.props;
+    const { media, ui } = this.props;
     const activeItem =
       media.media.find(item => item.id === this.store.activeMediaId) || {};
     return (
@@ -88,25 +90,26 @@ class Media extends React.Component<Props> {
                 )}
               </TypeSelect>
             </Flex>
-            <TagsWrapper>
-              {[...media.tags.keys()].map((tag, i) => {
-                const handleTagChange = checked => {
-                  if (checked) this.store.addTagFilter(tag);
-                  else this.store.removeTagFilter(tag);
-                };
-                return (
-                  <CheckableTag
-                    checked={this.store.tagFilters.includes(tag)}
-                    onChange={handleTagChange}
-                  >
-                    {tag}
-                    <TagNumber>
-                      {media.tags.get(tag)}
-                    </TagNumber>
-                  </CheckableTag>
-                );
-              })}
-            </TagsWrapper>
+            {!ui.isMobile &&
+              <TagsWrapper>
+                {[...media.tags.keys()].map((tag, i) => {
+                  const handleTagChange = checked => {
+                    if (checked) this.store.addTagFilter(tag);
+                    else this.store.removeTagFilter(tag);
+                  };
+                  return (
+                    <CheckableTag
+                      checked={this.store.tagFilters.includes(tag)}
+                      onChange={handleTagChange}
+                    >
+                      {tag}
+                      <TagNumber>
+                        {media.tags.get(tag)}
+                      </TagNumber>
+                    </CheckableTag>
+                  );
+                })}
+              </TagsWrapper>}
           </HeaderWrapper>
           <ContentWrapper>
             {this.renderContent()}
@@ -132,6 +135,7 @@ const TagNumber = styled.span`margin-left: 8px;`;
 
 const TagsWrapper = styled(Flex)`
   margin-top: 8px;
+  overflow: scroll;
 `;
 
 const StyledMediaItem = styled(MediaItem)`
@@ -160,4 +164,4 @@ const LoadingWrapper = styled(Flex)`
 `;
 
 export { Media };
-export default inject('client', 'media')(Media);
+export default inject('client', 'media', 'ui')(Media);
