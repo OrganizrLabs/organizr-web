@@ -1,9 +1,15 @@
 import * as React from 'react';
 import { Table } from 'antd';
 import Layout from 'components/Layout';
+import { inject, observer } from 'mobx-react';
 import Text from 'components/Text';
 import { Flex } from 'reflexbox';
 import styled from 'styled-components';
+import UiStore from 'stores/UiStore';
+
+type Props = {
+  ui: UiStore
+};
 
 const dataSource = [
   {
@@ -31,10 +37,10 @@ const columns = [
   }
 ];
 
-const Home = () =>
+const Home = ({ ui }: Props) =>
   <PaddedLayout>
     <Flex column>
-      <Question size="gigantic">
+      <Question size={ui.isMobile ? 'large' : 'gigantic'}>
         Was the March for Science movement able to perform the necessary
         tactical innovations to maintain momentum following the Earth Day march?
       </Question>
@@ -102,4 +108,4 @@ const PaddedLayout = styled(Layout)`
   padding: 20px;
 `;
 
-export default Home;
+export default inject('ui')(observer(Home));
