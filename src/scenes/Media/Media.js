@@ -139,8 +139,8 @@ const TagsWrapper = styled(Flex)`
 `;
 
 const StyledMediaItem = styled(MediaItem)`
-  flex: 1;
-  min-width: 200px;
+  flex: 1 1 auto;
+  flex-basis: 200px;
   margin: 15px;
   margin-top: 0;
 `;
