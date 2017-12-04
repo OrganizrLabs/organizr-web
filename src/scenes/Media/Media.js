@@ -90,26 +90,25 @@ class Media extends React.Component<Props> {
                 )}
               </TypeSelect>
             </Flex>
-            {!ui.isMobile &&
-              <TagsWrapper>
-                {[...media.tags.keys()].map((tag, i) => {
-                  const handleTagChange = checked => {
-                    if (checked) this.store.addTagFilter(tag);
-                    else this.store.removeTagFilter(tag);
-                  };
-                  return (
-                    <CheckableTag
-                      checked={this.store.tagFilters.includes(tag)}
-                      onChange={handleTagChange}
-                    >
-                      {tag}
-                      <TagNumber>
-                        {media.tags.get(tag)}
-                      </TagNumber>
-                    </CheckableTag>
-                  );
-                })}
-              </TagsWrapper>}
+            <TagsWrapper mobile={ui.isMobile}>
+              {[...media.tags.keys()].map((tag, i) => {
+                const handleTagChange = checked => {
+                  if (checked) this.store.addTagFilter(tag);
+                  else this.store.removeTagFilter(tag);
+                };
+                return (
+                  <StyledCheckableTag
+                    checked={this.store.tagFilters.includes(tag)}
+                    onChange={handleTagChange}
+                  >
+                    {tag}
+                    <TagNumber>
+                      {media.tags.get(tag)}
+                    </TagNumber>
+                  </StyledCheckableTag>
+                );
+              })}
+            </TagsWrapper>
           </HeaderWrapper>
           <ContentWrapper>
             {this.renderContent()}
@@ -121,6 +120,12 @@ class Media extends React.Component<Props> {
     );
   }
 }
+
+const StyledCheckableTag = styled(CheckableTag)`
+  border-radius: 4px;
+  border: 1px solid rgb(217, 217, 217);
+  margin-bottom: 5px;
+`;
 
 const WrappedFlex = styled(Flex)`
   flex-wrap: wrap;
@@ -135,7 +140,7 @@ const TagNumber = styled.span`margin-left: 8px;`;
 
 const TagsWrapper = styled(Flex)`
   margin-top: 8px;
-  overflow: scroll;
+  flex-wrap: wrap;
 `;
 
 const StyledMediaItem = styled(MediaItem)`
