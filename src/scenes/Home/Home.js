@@ -1,41 +1,16 @@
 import * as React from 'react';
-import { Table } from 'antd';
+import { Card } from 'antd';
 import Layout from 'components/Layout';
 import { inject, observer } from 'mobx-react';
 import Text from 'components/Text';
 import { Flex } from 'reflexbox';
 import styled from 'styled-components';
 import UiStore from 'stores/UiStore';
+import oped from 'assets/oped.jpg';
 
 type Props = {
   ui: UiStore
 };
-
-const dataSource = [
-  {
-    key: 'media',
-    before: 'bullhorn?',
-    after: 'phonebooth'
-  },
-  {
-    key: 'explanation',
-    before: `The march itself faced a large amount of critisism for not having a clear established goal. This in itself makes parsing a media theory quote difficult as it was attempting to do a fair amount of disparate things.`,
-    after: `After the march, there was a tactical shift within the march for science organization focusing on reaching out to representatives and advocating for science-based policy at the local level. On all social media platforms the organizers gave ways for followers to contact sentators and respresentatives. This was especially easy on facebook, which provided a widget that shows a user's local senators and asks if they want to contact them.`
-  }
-];
-
-const columns = [
-  {
-    title: 'Before March',
-    dataIndex: 'before',
-    key: 'before'
-  },
-  {
-    title: 'After March',
-    dataIndex: 'after',
-    key: 'after'
-  }
-];
 
 const Home = ({ ui }: Props) =>
   <PaddedLayout>
@@ -62,37 +37,51 @@ const Home = ({ ui }: Props) =>
           media limited the disruptive capacity of the movement after the march.
         </b>
       </TopPaddedText>
-      <SubHeader>Media Theory</SubHeader>
-      <Text>
-        The movement seemed to have two distinct media theories corresponding to
-        before and after the main march took place. I had a very hard time
-        coming up with the media theory for the pre-march movement, as the
-        organization itself did not seem to have a great understanding of
-        exactly what it wanted. The post-march theory, however, was more clear
-        as it corresponded to a clear tactical shift from within the movement.
-      </Text>
-      <MediaTheoryTable
-        dataSource={dataSource}
-        columns={columns}
-        pargination={false}
-      />
+      <SubHeader>
+        Media Theory: <b>An Op Ed Piece</b>
+      </SubHeader>
+
+      <Card bodyStyle={{ padding: 0 }}>
+        <div className="custom-image">
+          <MediaTheoryImage alt="Op Ed" width="100%" src={oped} />
+        </div>
+        <CardBody column>
+          <CardTitle>Op-Ed Piece</CardTitle>
+          <Text>
+            I had trouble constructing a media theory as there were two main
+            aspects of their social media: one focused on commenting on
+            political events and raising awareness about the political climate,
+            even sometimes calling on followers to contact their
+            representatives. This aspect I thought was similar to an op-ed piece
+            - the organizers were providing their opinions on the news in a
+            political manner. The second aspect was a more general attempt to
+            promote science awareness through posts about scientific
+            breakthroughs or the birthdays of famous scientists. These posts
+            portrayed the social media as more of a general science newspaper or
+            magazine. Ultimately I think the op-ed piece captures the main use
+            of the media, while the general science posts detracted from the the
+            media’s utility.
+          </Text>
+        </CardBody>
+      </Card>
     </Flex>
   </PaddedLayout>;
 
-const SubHeader = styled.h3`margin: 20px 0;`;
-
-const MediaTheoryTable = styled(Table)`
-  margin-top: 20px;
-
-  .ant-table-tbody > tr, .ant-table-thead > tr {
-    display: flex;
-  }
-
-  .ant-table-tbody > tr > td, .ant-table-thead > tr > th {
-    flex: 1;
-    word-break: normal;
-  }
+const MediaTheoryImage = styled.img`
+  filter: sepia(20%);
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  border: 1px solid gray;
 `;
+
+const CardTitle = styled.h2`margin-bottom: 10px;`;
+
+const CardBody = styled(Flex)`
+  padding: 15px;
+  padding-top: 5px;
+`;
+
+const SubHeader = styled.h3`margin: 20px 0;`;
 
 const Question = styled(Text)`
   border-left: 5px solid gray;

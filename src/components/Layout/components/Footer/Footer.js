@@ -19,6 +19,9 @@ const Footer = ({ location }: Props) => {
     <FooterLinks>
       <Breadcrumb>
         <Breadcrumb.Item>
+          <FooterLink to="/">Home</FooterLink>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>
           <FooterLink to="/timeline">Timeline</FooterLink>
         </Breadcrumb.Item>
         <Breadcrumb.Item>
