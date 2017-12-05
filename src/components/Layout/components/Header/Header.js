@@ -130,6 +130,7 @@ const StyledLink = styled(Link)`
 
 const StyledMenu = styled(Menu)`
   background: #333333 !important;
+  height: 100%;
   .ant-menu-item {
     height: 100%;
     align-items: center;
