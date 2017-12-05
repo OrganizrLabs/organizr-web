@@ -16,8 +16,33 @@ type Props = {
   ui: UiStore
 };
 
+type State = {
+  menuOpen: boolean
+};
+
 @observer
 class Header extends React.Component<Props> {
+  state: State;
+
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      menuOpen: false
+    };
+  }
+
+  closeMenu = (): void => {
+    this.setState({
+      menuOpen: false
+    });
+  };
+
+  toggleMenu = (): void => {
+    this.setState({
+      menuOpen: !this.state.menuOpen
+    });
+  };
+
   getBasePath = () => {
     const pathname = this.props.location.pathname;
     let slashCount = 0,
@@ -40,6 +65,7 @@ class Header extends React.Component<Props> {
         selectedKeys={[this.getBasePath()]}
         mode="horizontal"
         theme="dark"
+        mobile={ui.isMobile}
       >
         <HeaderItem key="/" mobile={ui.isMobile}>
           <Icon type="home" />
@@ -58,7 +84,7 @@ class Header extends React.Component<Props> {
     return (
       <HeaderWrapper justify="space-between">
         <Flex align="center">
-          <StyledLink to="/">
+          <StyledLink to="/" onClick={this.closeMenu}>
             <MFSLogo src={mfsIcon} />
             <Title>
               {ui.isMobile ? 'MFS Dossier' : 'March For Science Dossier'}
@@ -66,10 +92,9 @@ class Header extends React.Component<Props> {
           </StyledLink>
         </Flex>
         {ui.isMobile
-          ? <Dropdown overlay={menu}>
-              <DropdownButton icon="menu-fold" />
-            </Dropdown>
+          ? <MenuButton class="box-shadow-menu" onClick={this.toggleMenu} />
           : menu}
+        {ui.isMobile && this.state.menuOpen && menu}
         {subheader &&
           <SubHeader auto>
             {subheader}
@@ -79,8 +104,22 @@ class Header extends React.Component<Props> {
   }
 }
 
-const DropdownButton = styled(Button)`
+const MenuButton = styled.a`
+  position: relative;
+  padding-left: 1.25em;
   align-self: center;
+  font-size: 25px;
+  top: -8px;
+
+  &:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 1em;
+    height: 0.1em;
+    background: white;
+    box-shadow: 0 0.25em 0 0 white, 0 0.5em 0 0 white;
+  }
 `;
 
 const StyledLink = styled(Link)`
@@ -93,12 +132,30 @@ const StyledMenu = styled(Menu)`
   background: #333333 !important;
   .ant-menu-item {
     height: 100%;
+    align-items: center;
   }
   .ant-menu-item.ant-menu-item-selected {
-    background-color: inherit !important;
-    border-bottom: 3px solid #108ee9 !important;
-    color: #108ee9 !important;
+    ${({ mobile }) =>
+      !mobile &&
+      `
+      background-color: inherit !important;
+      border-bottom: 3px solid #108ee9 !important;
+      color: #108ee9 !important;
+    `}
   }
+  ${({ mobile }) =>
+    mobile &&
+    `
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    z-index: 100;
+    top: 75px; 
+    left: 0;
+    border-top: 1px solid #525252;
+  `}
 `;
 
 const Title = styled.h2`color: #fff;`;
