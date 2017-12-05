@@ -92,7 +92,9 @@ class Header extends React.Component<Props> {
           </StyledLink>
         </Flex>
         {ui.isMobile
-          ? <MenuButton class="box-shadow-menu" onClick={this.toggleMenu} />
+          ? <MenuButtonContainer onClick={this.toggleMenu}>
+              <MenuButton class="box-shadow-menu" />
+            </MenuButtonContainer>
           : menu}
         {ui.isMobile && this.state.menuOpen && menu}
         {subheader &&
@@ -103,6 +105,10 @@ class Header extends React.Component<Props> {
     );
   }
 }
+
+const MenuButtonContainer = styled(Flex)`
+  height: 100%;
+`;
 
 const MenuButton = styled.a`
   position: relative;
