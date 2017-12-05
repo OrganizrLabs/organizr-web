@@ -146,6 +146,7 @@ const StyledMenu = styled(Menu)`
   ${({ mobile }) =>
     mobile &&
     `
+    height: 170px;
     position: absolute;
     display: flex;
     flex-direction: column;
