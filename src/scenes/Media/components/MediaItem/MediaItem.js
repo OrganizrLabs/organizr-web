@@ -43,7 +43,11 @@ class MediaItem extends React.Component<Props> {
     } = this.props;
     return (
       <Card className={className} bodyStyle={{ padding: 0 }}>
-        <ImageWrapper onMouseEnter={this.showLink} onMouseLeave={this.hideLink}>
+        <ImageWrapper
+          onClick={this.goToLink}
+          onMouseEnter={this.showLink}
+          onMouseLeave={this.hideLink}
+        >
           <BackgroundImage
             blurred={this.state.linkVisible}
             alt="example"
@@ -52,7 +56,7 @@ class MediaItem extends React.Component<Props> {
           />
           {this.state.linkVisible &&
             <LinkWrapper justify="center" align="center">
-              <LinkIcon type="link" onClick={this.goToLink} />
+              <LinkIcon type="link" />
             </LinkWrapper>}
         </ImageWrapper>
         <CardContent onClick={onClick}>

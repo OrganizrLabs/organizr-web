@@ -60,7 +60,9 @@ class Header extends React.Component<Props> {
         <Flex align="center">
           <StyledLink to="/">
             <MFSLogo src={mfsIcon} />
-            <Title>March For Science Dossier</Title>
+            <Title>
+              {ui.isMobile ? 'MFS Dossier' : 'March For Science Dossier'}
+            </Title>
           </StyledLink>
         </Flex>
         {ui.isMobile
