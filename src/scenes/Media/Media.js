@@ -32,6 +32,9 @@ class Media extends React.Component<Props> {
     this.store = new MediaStore();
   }
 
+  matchesSearch = (value?: string): boolean =>
+    !!value && value.toLowerCase().includes(this.store.lowerSearchValue);
+
   filterFromTags = (item: Object) => {
     if (this.store.tagFilters.length === 0) return true;
     if (!item.tags) return false;
@@ -47,9 +50,9 @@ class Media extends React.Component<Props> {
 
   filterFromSearch = (item: Object) =>
     this.store.searchValue === '' ||
-    (item.title && item.title.includes(this.store.searchValue)) ||
-    (item.description && item.description.includes(this.store.searchValue)) ||
-    (item.notes && item.notes.includes(this.store.searchValue));
+    this.matchesSearch(item.title) ||
+    this.matchesSearch(item.description) ||
+    this.matchesSearch(item.notes);
 
   renderContent = () => {
     const { media } = this.props;
@@ -61,7 +64,7 @@ class Media extends React.Component<Props> {
       );
     }
     return (
-      <WrappedFlex>
+      <WrappedFlex auto>
         {media.media
           .filter(
             item =>

@@ -1,5 +1,5 @@
 // @flow
-import { observable, action } from 'mobx';
+import { observable, action, computed } from 'mobx';
 
 class MediaStore {
   @observable activeMediaId: string;
@@ -8,6 +8,11 @@ class MediaStore {
   @observable tagFilters: Array<string> = [];
   @observable typeSelection: string = 'all';
   @observable searchValue: string = '';
+
+  @computed
+  get lowerSearchValue(): string {
+    return this.searchValue.toLowerCase();
+  }
 
   @action
   addTagFilter = (tag: string): void => {
