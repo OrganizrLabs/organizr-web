@@ -45,6 +45,12 @@ class Media extends React.Component<Props> {
     item.type === this.store.typeSelection ||
     this.store.typeSelection === 'all';
 
+  filterFromSearch = (item: Object) =>
+    this.store.searchValue === '' ||
+    (item.title && item.title.includes(this.store.searchValue)) ||
+    (item.description && item.description.includes(this.store.searchValue)) ||
+    (item.notes && item.notes.includes(this.store.searchValue));
+
   renderContent = () => {
     const { media } = this.props;
     if (media.media.length === 0) {
@@ -58,7 +64,10 @@ class Media extends React.Component<Props> {
       <WrappedFlex>
         {media.media
           .filter(
-            item => this.filterFromTags(item) && this.filterFromType(item)
+            item =>
+              this.filterFromTags(item) &&
+              this.filterFromType(item) &&
+              this.filterFromSearch(item)
           )
           .map((item, i) => {
             const openDetail = () => this.store.showModal(item.id);
@@ -72,13 +81,14 @@ class Media extends React.Component<Props> {
     const { media, ui } = this.props;
     const activeItem =
       media.media.find(item => item.id === this.store.activeMediaId) || {};
+    const updateSearch = value => this.store.setSearchValue(value);
     return (
       <Layout>
         <Flex column auto>
           <HeaderWrapper column>
             <Header>Movement's Media</Header>
             <Flex>
-              <Search placeholder="Filter Media" />
+              <Search placeholder="Filter Media" onSearch={updateSearch} />
               <TypeSelect
                 value={this.store.typeSelection}
                 onSelect={this.store.changeType}

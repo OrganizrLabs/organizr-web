@@ -7,6 +7,7 @@ class MediaStore {
   // Tags that filter the search
   @observable tagFilters: Array<string> = [];
   @observable typeSelection: string = 'all';
+  @observable searchValue: string = '';
 
   @action
   addTagFilter = (tag: string): void => {
@@ -24,6 +25,11 @@ class MediaStore {
   @action
   resetFilters = (): void => {
     this.tagFilters = [];
+  };
+
+  @action
+  setSearchValue = (value: string): void => {
+    this.searchValue = value;
   };
 
   @action
