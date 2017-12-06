@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Modal, Tag } from 'antd';
+import { Modal, Icon, Tag } from 'antd';
 import { Flex } from 'reflexbox';
 import styled from 'styled-components';
 import placeholder from 'assets/placeholder.png';
@@ -23,7 +23,15 @@ class ItemModal extends React.Component<Props> {
     const { item, onClose } = this.props;
     return (
       <StyledModal
-        title={item.title}
+        title={
+          <ModalTitle>
+            {item.title}
+            {item.link &&
+              <Link href={item.link} target="_blank">
+                <Icon type="link" />
+              </Link>}
+          </ModalTitle>
+        }
         visible
         footer={null}
         onOk={onClose}
@@ -52,6 +60,10 @@ class ItemModal extends React.Component<Props> {
     );
   }
 }
+
+const ModalTitle = styled.h3`margin-right: 10px;`;
+
+const Link = styled.a`margin-left: 5px;`;
 
 const PaddedFlex = styled(Flex)`
   padding: 10px 25px;

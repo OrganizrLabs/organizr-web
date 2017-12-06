@@ -3,7 +3,7 @@ import * as React from 'react';
 import { inject, observer } from 'mobx-react';
 import { withRouter } from 'react-router';
 import { Link, type RouterHistory } from 'react-router-dom';
-import { Menu, Button, Icon, Dropdown } from 'antd';
+import { Menu, Icon } from 'antd';
 import { Flex } from 'reflexbox';
 import UiStore from 'stores/UiStore';
 import styled from 'styled-components';

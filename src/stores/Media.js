@@ -10,7 +10,7 @@ class Media {
     'all',
     'article',
     'post',
-    'image',
+    'photo',
     'book',
     'website',
     'other'
