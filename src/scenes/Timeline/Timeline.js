@@ -107,6 +107,7 @@ const Header = styled.h1`
 const PaddedFlex = styled(Flex)`
   font-size: 16px;
   overflow-y: scroll;
+  word-break: break-word;
 `;
 
 const StyledTimeline = styled(AntTimeline)`

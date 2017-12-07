@@ -77,6 +77,7 @@ const Link = styled.a`margin-left: 5px;`;
 
 const PaddedFlex = styled(Flex)`
   padding: 10px 25px;
+  word-break: break-word;
 `;
 
 const StyledModal = styled(Modal)`
