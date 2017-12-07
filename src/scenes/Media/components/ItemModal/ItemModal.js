@@ -3,6 +3,7 @@ import { Modal, Icon, Tag } from 'antd';
 import { Flex } from 'reflexbox';
 import styled from 'styled-components';
 import placeholder from 'assets/placeholder.png';
+import Text from 'components/Text';
 
 type Props = {
   item: Object,
@@ -24,13 +25,18 @@ class ItemModal extends React.Component<Props> {
     return (
       <StyledModal
         title={
-          <ModalTitle>
-            {item.title}
-            {item.link &&
-              <Link href={item.link} target="_blank">
-                <Icon type="link" />
-              </Link>}
-          </ModalTitle>
+          <Flex column>
+            <ModalTitle>
+              {item.title}
+              {item.link &&
+                <Link href={item.link} target="_blank">
+                  <Icon type="link" />
+                </Link>}
+            </ModalTitle>
+            <DateAccessed>
+              {`Accessed ${new Date(item.dateAccessed).toDateString()}`}
+            </DateAccessed>
+          </Flex>
         }
         visible
         footer={null}
@@ -60,6 +66,10 @@ class ItemModal extends React.Component<Props> {
     );
   }
 }
+
+const DateAccessed = styled(Text)`
+  color: gray;
+`;
 
 const ModalTitle = styled.h3`margin-right: 10px;`;
 

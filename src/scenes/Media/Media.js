@@ -72,6 +72,12 @@ class Media extends React.Component<Props> {
               this.filterFromType(item) &&
               this.filterFromSearch(item)
           )
+          .sort((a, b) => {
+            return (
+              new Date(a.dateAccessed).getTime() -
+              new Date(b.dateAccessed).getTime()
+            );
+          })
           .map((item, i) => {
             const openDetail = () => this.store.showModal(item.id);
             return <StyledMediaItem key={i} item={item} onClick={openDetail} />;
