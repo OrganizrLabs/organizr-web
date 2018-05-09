@@ -5,6 +5,7 @@ import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import { Flex } from 'reflexbox';
 import styled from 'styled-components';
+import { scenes } from 'constants/app';
 
 type Props = {
   location: Object
@@ -18,15 +19,13 @@ const Footer = ({ location }: Props) => {
   return (
     <FooterLinks>
       <Breadcrumb>
-        <Breadcrumb.Item>
-          <FooterLink to="/">Home</FooterLink>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>
-          <FooterLink to="/timeline">Timeline</FooterLink>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>
-          <FooterLink to="/media">Media</FooterLink>
-        </Breadcrumb.Item>
+        {scenes.map((scene, i) =>
+          <Breadcrumb.Item key={i}>
+            <FooterLink to={scene.path}>
+              {scene.name}
+            </FooterLink>
+          </Breadcrumb.Item>
+        )}
       </Breadcrumb>
     </FooterLinks>
   );

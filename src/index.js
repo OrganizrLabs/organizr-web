@@ -1,27 +1,48 @@
 // @flow
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import { HashRouter as Router, Route } from 'react-router-dom';
-import StoreProvider from 'stores';
+import { Provider } from 'react-redux';
+import {
+  HashRouter as Router,
+  Redirect,
+  Switch,
+  Route
+} from 'react-router-dom';
 import { LocaleProvider } from 'antd';
 import enUS from 'antd/lib/locale-provider/en_US';
+import { scenes, defaultRoute } from 'constants/app';
+import AuthedRoute from 'components/AuthedRoute';
+import store from 'store';
+import NotFound from 'scenes/NotFound';
 
-// routes
-import Home from 'scenes/Home';
-import Timeline from 'scenes/Timeline';
-import Media from 'scenes/Media';
+const defaultPath = defaultRoute.path;
 
 ReactDOM.render(
   <LocaleProvider locale={enUS}>
-    <StoreProvider>
+    <Provider store={store}>
       <Router>
         <div>
-          <Route exact path="/" component={Home} />
-          <Route path="/timeline" component={Timeline} />
-          <Route path="/media" component={Media} />
+          <Switch>
+            <Route exact path="/" component={() => <Redirect to={'/home'} />} />
+            <Route
+              exact
+              path={defaultPath}
+              component={defaultRoute.component}
+            />
+            {scenes.map(
+              (scene, i) =>
+                scene.name !== defaultRoute.name &&
+                <AuthedRoute
+                  path={scene.path}
+                  component={scene.component}
+                  key={i}
+                />
+            )}
+            <Route path="*" exact component={NotFound} />
+          </Switch>
         </div>
       </Router>
-    </StoreProvider>
+    </Provider>
   </LocaleProvider>,
   document.getElementById('root')
 );
