@@ -2,7 +2,7 @@
   "name": "oranizr",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://zacharyfmarion.io/redux-firebase-organizer",
+  "homepage": "http://zacharyfmarion.io/organizr",
   "dependencies": {
     "antd": "^2.13.4",
     "firebase": "^5.0.1",
