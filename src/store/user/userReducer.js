@@ -4,11 +4,11 @@ import * as actionTypes from './userActionTypes';
 
 type State = {
   // The user token provided from firebase auth
-  token: ?string
+  loggedIn: boolean
 };
 
 const initialState: State = {
-  token: null
+  loggedIn: false
 };
 
 const appReducer = (
@@ -17,9 +17,9 @@ const appReducer = (
 ) => {
   switch (type) {
     case actionTypes.USER_LOGIN:
-      return !error ? { ...state, token: payload } : state;
+      return !error ? { ...state, loggedIn: true } : state;
     case actionTypes.USER_LOGOUT:
-      return { ...state, token: null };
+      return { ...state, loggedIn: false };
     default:
       return state;
   }

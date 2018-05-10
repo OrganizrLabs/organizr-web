@@ -23,7 +23,11 @@ ReactDOM.render(
       <Router>
         <div>
           <Switch>
-            <Route exact path="/" component={() => <Redirect to={'/home'} />} />
+            <Route
+              exact
+              path="/"
+              component={() => <Redirect to={'/login'} />}
+            />
             <Route
               exact
               path={defaultPath}

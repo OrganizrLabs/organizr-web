@@ -14,7 +14,7 @@ type Props = {
 const Layout = ({ children, subheader, ui, className, ...restProps }: Props) =>
   <Background column>
     <Header subheader={subheader} />
-    <Panel auto justify="center" className={className} {...restProps}>
+    <Panel auto align="center" column className={className} {...restProps}>
       {children}
     </Panel>
     <Footer />

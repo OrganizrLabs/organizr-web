@@ -13,7 +13,7 @@ type Props = {
   /** Whether or not a drop shadow should be added to the button */
   flat?: boolean,
   /** Child - should just be a text field */
-  children: React.Node
+  children?: React.Node
 };
 
 /**

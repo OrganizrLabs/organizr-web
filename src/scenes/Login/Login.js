@@ -2,43 +2,60 @@
 import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { Spin } from 'antd';
 import { Redirect } from 'react-router-dom';
 import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import GoogleButton from 'react-google-button';
 import Layout from 'components/Layout';
+import { loginUser } from 'store/user/userActions';
 
 type Props = {
   firebase: {
     login: Function
   },
-  auth: Object
+  auth: Object,
+  loginUser: void => void,
+  // logged in state, stored locally in redux
+  loggedIn: boolean
 };
 
-export const LoginPage = ({ firebase, auth }: Props) => {
-  console.log(auth);
+export const LoginPage = ({ firebase, auth, loginUser, loggedIn }: Props) => {
+  if (loggedIn) {
+    return <Redirect to="/todos" />;
+  }
   return (
     <Layout>
-      <div>
-        <h2>Auth</h2>
-        {!isLoaded(auth)
-          ? <span>Loading...</span>
-          : isEmpty(auth)
-            ? <div>
-                <GoogleButton
-                  onClick={() =>
-                    firebase.login({ provider: 'google', type: 'popup' })}
-                >
-                  Login With Google
-                </GoogleButton>
-                <span>Not Authed</span>
-              </div>
-            : <Redirect to="/home" />}
-      </div>
+      {!isLoaded(auth)
+        ? <Spin />
+        : isEmpty(auth)
+          ? <div>
+              <GoogleButton
+                onClick={() =>
+                  firebase
+                    .login({ provider: 'google', type: 'popup' })
+                    .then(loginUser)}
+              >
+                Login With Google
+              </GoogleButton>
+              <span>Not Authed</span>
+            </div>
+          : <Redirect to="/todos" />}
     </Layout>
   );
 };
 
+const mapStateToProps = ({ user: { loggedIn }, firebase: { auth } }) => ({
+  auth,
+  loggedIn
+});
+
+const mapDispatchToProps = (dispatch: Function) => ({
+  loginUser: () => {
+    dispatch(loginUser());
+  }
+});
+
 export default compose(
   firebaseConnect(), // withFirebase can also be used
-  connect(({ firebase: { auth } }) => ({ auth }))
+  connect(mapStateToProps, mapDispatchToProps)
 )(LoginPage);

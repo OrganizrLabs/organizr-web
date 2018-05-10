@@ -20,11 +20,10 @@ const fontSizes = {
   large: '20px'
 };
 
-class Input extends React.Component<Props> {
-  handleChange = (event: SyntheticEvent<*>) => {
-    const { target } = event;
-    if (!(target instanceof window.HTMLInputElement)) return;
-    this.props.onChange(target.value);
+class TextArea extends React.Component<Props> {
+  handleChange = (e: Event) => {
+    // $FlowIssue
+    this.props.onChange(e.target.value);
   };
 
   handleKeyPress = (e: { key: string }) => {
@@ -44,26 +43,17 @@ class Input extends React.Component<Props> {
     } = this.props;
     return (
       <InputContainer className={className}>
-        {icon &&
-          <IconContainer
-            justify="center"
-            align="center"
-            className="input-icon__container"
-          >
-            <StyledIcon type={icon} size={size} className="input-icon" />
-          </IconContainer>}
-        <StyledInput
-          type="text"
+        <StyledTextArea
           hasIcon={!!icon}
           size={size}
           onKeyPress={this.handleKeyPress}
           value={value}
           placeholder={placeholder}
           onChange={this.handleChange}
-          className="input-instance"
+          className="textarea-instance"
         />
         {action &&
-          <ActionContainer className="input-action__container">
+          <ActionContainer className="textarea-action__container">
             {action}
           </ActionContainer>}
       </InputContainer>
@@ -78,33 +68,19 @@ const ActionContainer = styled(Flex)`
   bottom: 0;
 `;
 
-const IconContainer = styled(Flex)`
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-`;
-
 const InputContainer = styled.div`position: relative;`;
 
-const StyledIcon = styled(Icon)`
-  font-size: 19px;
-  color: gray;
-  padding: ${({ size }) => (size === 'large' ? '0 8px' : '0 5px')};
-`;
-
-const StyledInput = styled.input`
-  width: 100%;
+const StyledTextArea = styled.textarea`
   border-radius: 3px;
   padding: 8px;
   border: none;
   font-family: Roboto;
   color: black;
   font-size: ${({ size }) => fontSizes[size]};
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px;
+  box-shadow: ${({ shadow }) => shadow};
   ${({ hasIcon, size }) =>
     hasIcon &&
     (size === 'large' ? `padding-left: 40px;` : `padding-left: 30px;`)};
 `;
 
-export default Input;
+export default TextArea;

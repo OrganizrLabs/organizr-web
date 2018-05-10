@@ -2,7 +2,9 @@
  * Configuration file for managing static details of the application
  */
 import * as React from 'react';
-import Home from 'scenes/Home';
+import Dashboard from 'scenes/Dashboard';
+import Todos from 'scenes/Todos';
+import Notes from 'scenes/Notes';
 import Login from 'scenes/Login';
 import Calendar from 'scenes/Calendar';
 
@@ -17,16 +19,22 @@ export const title: string = 'Organizr';
 export const shortTitle: string = 'Organizr';
 export const scenes: Array<Scene> = [
   {
-    path: '/login',
-    icon: 'user',
-    name: 'Login',
-    component: Login
+    path: '/dashboard',
+    icon: 'dashboard',
+    name: 'Dashboard',
+    component: Dashboard
   },
   {
-    path: '/home',
-    icon: 'home',
-    name: 'Home',
-    component: Home
+    path: '/todos',
+    icon: 'checkbox',
+    name: 'Todos',
+    component: Todos
+  },
+  {
+    path: '/notes',
+    icon: 'note',
+    name: 'Notes',
+    component: Notes
   },
   {
     path: '/calendar',
@@ -36,4 +44,9 @@ export const scenes: Array<Scene> = [
   }
 ];
 
-export const defaultRoute = scenes[0];
+export const defaultRoute = {
+  path: '/login',
+  icon: 'user',
+  name: 'Login',
+  component: Login
+};

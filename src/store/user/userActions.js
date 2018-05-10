@@ -2,10 +2,9 @@
 import * as actionTypes from './userActionTypes';
 
 // Actions
-export const loginUser = (token: string, error: Object) => ({
+export const loginUser = () => ({
   type: actionTypes.USER_LOGIN,
-  payload: token,
-  error
+  payload: {}
 });
 
 export const logoutUser = () => ({

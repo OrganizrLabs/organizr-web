@@ -35,7 +35,7 @@ const Header = ({ history, firebase }: Props) => {
   return (
     <HeaderWrapper justify="space-between">
       <Flex align="center">
-        <StyledLink to="/home">
+        <StyledLink to="/dashboard">
           <MFSLogo src={logo} />
           <Title>
             {title}
