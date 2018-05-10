@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withState } from 'recompose';
 import { Spin } from 'antd';
-import { firebaseConnect, isLoaded } from 'react-redux-firebase';
+import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { Flex } from 'reflexbox';
 import Layout from 'components/Layout';
 import Input from 'components/Input';
@@ -53,11 +53,13 @@ const Todos = ({ todos, firebase, auth, todo, setTodo }: Props) => {
         <Button onClick={addTodo}>Add todo</Button>
       </NewTodoContainer>
       {isLoaded(todos)
-        ? <StyledTodoList
-            todos={todos}
-            setCompleted={setCompleted}
-            deleteTodo={deleteTodo}
-          />
+        ? todos[auth.uid]
+          ? <StyledTodoList
+              todos={todos[auth.uid]}
+              setCompleted={setCompleted}
+              deleteTodo={deleteTodo}
+            />
+          : <div>No todos</div>
         : <Spin />}
     </PaddedLayout>
   );
@@ -83,7 +85,7 @@ const PaddedLayout = styled(Layout)`
 
 // Map the firebase todos to our components props
 const mapStateToProps = ({ firebase: { data, auth } }) => ({
-  todos: !data.todos ? [] : data.todos[auth.uid],
+  todos: data.todos,
   auth
 });
 
