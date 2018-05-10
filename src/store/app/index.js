@@ -1,3 +1,5 @@
 import appReducer from './appReducer';
+import * as appActions from './appActions';
+import * as appActionTypes from './appActionTypes';
 
-export { appReducer };
+export { appReducer, appActions, appActionTypes };

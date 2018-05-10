@@ -6,18 +6,21 @@ import { Link } from 'react-router-dom';
 import { Flex } from 'reflexbox';
 import styled from 'styled-components';
 import { scenes } from 'constants/app';
+import { type Theme } from 'types/Theme';
 
 type Props = {
-  location: Object
+  location: Object,
+  theme: Theme,
+  themeName: string
 };
 
-const Footer = ({ location }: Props) => {
+const Footer = ({ location, theme, themeName }: Props) => {
   const FooterLink = props =>
     <StyledLink active={location.pathname === props.to} {...props}>
       {props.children}
     </StyledLink>;
   return (
-    <FooterLinks>
+    <FooterLinks theme={theme} themeName={themeName}>
       <Breadcrumb>
         {scenes.map((scene, i) =>
           <Breadcrumb.Item key={i}>
@@ -36,8 +39,9 @@ const StyledLink = styled(Link)`
 `;
 
 const FooterLinks = styled(Flex)`
-  margin: 0 30px;
-  padding: 15px 0;
+  padding: 15px 30px;
+  background: ${({ themeName, theme }) =>
+    themeName === 'light' ? '#f0f2f5' : theme.background};
   border-top: 1px solid #d6d6d6;
 `;
 

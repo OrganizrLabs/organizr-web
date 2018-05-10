@@ -39,7 +39,7 @@ const Notes = ({ notes, firebase, auth, editing, setEditing }: Props) => {
     );
   }
   return (
-    <Layout>
+    <Layout column>
       <Flex wrap>
         {(hasNotes || editing) &&
           Object.keys(notes).map(noteId => {

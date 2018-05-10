@@ -52,11 +52,7 @@ const Note = ({
   const handleSave = () => {
     if (onSave) {
       const data = { title, text, lastEdited: new Date().getTime() };
-      if (!forceEditing) {
-        onSave(id, data);
-      } else {
-        onSave(data);
-      }
+      !forceEditing ? onSave(id, data) : onSave(data);
     }
     if (!forceEditing) setEditing(false);
   };

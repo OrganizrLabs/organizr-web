@@ -20,27 +20,31 @@ export const shortTitle: string = 'Organizr';
 export const scenes: Array<Scene> = [
   {
     path: '/dashboard',
-    icon: 'dashboard',
+    icon: 'appstore-o',
     name: 'Dashboard',
-    component: Dashboard
+    component: Dashboard,
+    scenes: []
   },
   {
     path: '/todos',
-    icon: 'checkbox',
+    icon: 'check-square-o',
     name: 'Todos',
-    component: Todos
+    component: Todos,
+    scenes: []
   },
   {
     path: '/notes',
-    icon: 'note',
+    icon: 'file-text',
     name: 'Notes',
-    component: Notes
+    component: Notes,
+    scenes: []
   },
   {
     path: '/calendar',
     icon: 'calendar',
     name: 'Calendar',
-    component: Calendar
+    component: Calendar,
+    scenes: []
   }
 ];
 

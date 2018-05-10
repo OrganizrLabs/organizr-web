@@ -80,7 +80,7 @@ const NewTodoContainer = styled(Flex)`
 `;
 
 const PaddedLayout = styled(Layout)`
-  padding: 20px;
+  padding: 80px 20px 20px 20px;
 `;
 
 // Map the firebase todos to our components props

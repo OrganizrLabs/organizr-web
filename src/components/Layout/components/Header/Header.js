@@ -9,10 +9,11 @@ import { title } from 'constants/app';
 import logo from 'assets/logo.png';
 
 type Props = {
-  firebase: Object
+  firebase: Object,
+  primaryColor: string
 };
 
-const Header = ({ history, firebase }: Props) => {
+const Header = ({ history, primaryColor, firebase }: Props) => {
   const logout = () => {
     console.log(firebase);
     firebase.logout();
@@ -33,7 +34,7 @@ const Header = ({ history, firebase }: Props) => {
     </Menu>
   );
   return (
-    <HeaderWrapper justify="space-between">
+    <HeaderWrapper justify="space-between" primaryColor={primaryColor}>
       <Flex align="center">
         <StyledLink to="/dashboard">
           <MFSLogo src={logo} />
@@ -60,6 +61,7 @@ const UserIcon = styled(Icon)`
   vertical-align: middle;
   margin-left: 15px;
   cursor: pointer;
+  color: #fff;
 `;
 
 const Divider = styled.span`
@@ -82,10 +84,11 @@ const StyledLink = styled(Link)`
   align-items: center;
 `;
 
-const Title = styled.h2``;
+const Title = styled.h2`color: #fff;`;
 
 const HeaderWrapper = styled(Flex)`
-  background: #fff;
+  z-index: 3;
+  background: ${({ primaryColor }) => primaryColor};
   padding: 0 30px;
   height: 55px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px;

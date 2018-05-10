@@ -1,7 +1,8 @@
 // @flow
-import { combineReducers, createStore, compose } from 'redux';
+import { combineReducers, createStore, applyMiddleware, compose } from 'redux';
 import firebase from 'firebase';
 import { reactReduxFirebase, firebaseReducer } from 'react-redux-firebase';
+import logger from 'redux-logger';
 
 // reducer imports
 import { appReducer } from './app';
@@ -34,7 +35,6 @@ const createStoreWithFirebase = compose(
 )(createStore);
 
 // Creating the store
-const initialState = {};
-const store = createStoreWithFirebase(reducers, initialState);
+const store = createStoreWithFirebase(reducers, applyMiddleware(logger));
 
 export default store;
