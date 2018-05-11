@@ -7,14 +7,14 @@ import styled from 'styled-components';
 type Props = {
   /** Unique id for the calendar instance */
   id: string,
-  /** Height of the container div in px */
-  height?: number,
+  /** Height of the container div */
+  height?: string,
   /** Tui Calendar options object */
   options?: Object
 };
 
 /** A React wrapper for the tui.calendar component */
-@defaultProps({ height: 650, options: {} })
+@defaultProps({ height: '650px', options: {} })
 class Calendar extends React.Component<Props> {
   calendar: ?Object;
 
@@ -39,7 +39,7 @@ class Calendar extends React.Component<Props> {
 const CalendarContainer = styled.div`
   display: block;
   width: 100%;
-  height: ${({ height }) => height + 'px'};
+  height: ${({ height }) => height};
 `;
 
 export default Calendar;

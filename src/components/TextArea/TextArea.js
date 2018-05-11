@@ -1,6 +1,5 @@
 // @flow
 import * as React from 'react';
-import { Icon } from 'antd';
 import styled from 'styled-components';
 import { Flex } from 'reflexbox';
 

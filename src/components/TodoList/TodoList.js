@@ -13,9 +13,11 @@ type Props = {
   todos: {
     [string]: TodoType
   },
-  className: string,
+  className?: string,
   /** Function that deletes a specific todo by id */
   deleteTodo: string => void,
+  /** Limit the number of todos to show */
+  limit?: number,
   /** 
    * Function to toggle the completed todo, with the index of the 
    * todo passed in as a parameter
@@ -23,13 +25,20 @@ type Props = {
   setCompleted: (string, boolean) => void
 };
 
-const TodoList = ({ todos, className, deleteTodo, setCompleted }: Props) => {
+const TodoList = ({
+  todos,
+  className,
+  limit,
+  deleteTodo,
+  setCompleted
+}: Props) => {
   return (
     <TodoContainer column className={className}>
       {todos &&
-        Object.keys(todos).map(todoId => {
+        Object.keys(todos).map((todoId, i) => {
           const deleteTodoItem = () => deleteTodo(todoId);
           return (
+            (!limit || i < limit) &&
             <StyledTodo
               key={todoId}
               id={todoId}

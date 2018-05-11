@@ -2,13 +2,18 @@
 import * as React from 'react';
 import Layout from 'components/Layout';
 import Calendar from 'components/Calendar';
+import styled from 'styled-components';
 
 const CalendarScene = () => {
   return (
-    <Layout>
+    <PaddedLayout>
       <Calendar id="calendar" />
-    </Layout>
+    </PaddedLayout>
   );
 };
+
+const PaddedLayout = styled(Layout)`
+  padding: 20px;
+`;
 
 export default CalendarScene;

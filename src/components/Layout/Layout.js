@@ -44,7 +44,6 @@ const Layout = ({
   toggleSidebarVisibility,
   className
 }: Props) => {
-  console.log(sidebarCollapsed, sidebarVisible);
   return (
     <Background>
       {showSidebar &&

@@ -1,33 +1,54 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Flex } from 'reflexbox';
 import Layout from 'components/Layout';
-import DashboardPanel from './components/DashboardPanel';
+
+// Local components
+import TodoPanel from './components/TodoPanel';
+import NotesPanel from './components/NotesPanel';
+import CalendarPanel from './components/CalendarPanel';
 
 type Props = {};
 
 const Dashboard = () => {
   return (
-    <Layout column>
+    <PaddedLayout column>
       <PanelRow>
-        <StyledDashboardPanel rightPadded>testing</StyledDashboardPanel>
-        <StyledDashboardPanel leftPadded>testing</StyledDashboardPanel>
+        <StyledTodoPanel />
+        <StyledNotesPanel />
       </PanelRow>
-      <StyledDashboardPanel fullWidth>testing</StyledDashboardPanel>
-    </Layout>
+      <StyledCalendarPanel fullWidth />
+    </PaddedLayout>
   );
 };
+
+const PaddedLayout = styled(Layout)`
+  padding: 20px;
+`;
 
 const PanelRow = styled(Flex)`
   width: 100%;
 `;
 
-const StyledDashboardPanel = styled(DashboardPanel)`
+const panelStyles = css`
   width: 100%;
-  height: ${({ height }) => (height ? height + 'px' : '250px')};
+  height: 250px;
   margin-top: ${({ fullWidth }) => (fullWidth ? '20px' : '0')};
-  margin-left: ${({ leftPadded }) => (leftPadded ? '10px' : '0')};
-  margin-right: ${({ rightPadded }) => (rightPadded ? '10px' : '0')};
+`;
+
+const StyledTodoPanel = styled(TodoPanel)`
+  ${panelStyles}
+  margin-right: 10px;
+`;
+
+const StyledNotesPanel = styled(NotesPanel)`
+  ${panelStyles}
+  margin-left: 10px;
+`;
+
+const StyledCalendarPanel = styled(CalendarPanel)`
+  ${panelStyles}
+  height: 300px;
 `;
 
 export default Dashboard;

@@ -4,13 +4,13 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withState } from 'recompose';
 import { Spin } from 'antd';
-import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
+import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import { Flex } from 'reflexbox';
 import Layout from 'components/Layout';
 import Input from 'components/Input';
 import Button from 'components/Button';
 import styled from 'styled-components';
-import TodoList from 'components/TodoList';
+import TodoList from 'containers/TodoList';
 import { type Todo } from 'types/Todo';
 
 type Props = {
@@ -33,17 +33,9 @@ const Todos = ({ todos, firebase, auth, todo, setTodo }: Props) => {
     });
     setTodo('');
   };
-  // Delete a todo item
-  const deleteTodo = id => {
-    firebase.remove(`todos/${auth.uid}/${id}`);
-  };
-  // Set whether or not a todo has been completed
-  const setCompleted = (id: string, value: boolean) => {
-    firebase.set(`todos/${auth.uid}/${id}/completed`, value);
-  };
   return (
     <PaddedLayout column>
-      <NewTodoContainer justify="center">
+      <NewTodoWrapper justify="center">
         <TodoInput
           placeholder="New Todo..."
           value={todo}
@@ -51,15 +43,9 @@ const Todos = ({ todos, firebase, auth, todo, setTodo }: Props) => {
           onEnter={addTodo}
         />
         <Button onClick={addTodo}>Add todo</Button>
-      </NewTodoContainer>
+      </NewTodoWrapper>
       {isLoaded(todos)
-        ? todos[auth.uid]
-          ? <StyledTodoList
-              todos={todos[auth.uid]}
-              setCompleted={setCompleted}
-              deleteTodo={deleteTodo}
-            />
-          : <div>No todos</div>
+        ? todos[auth.uid] ? <StyledTodoList /> : <div>No todos</div>
         : <Spin />}
     </PaddedLayout>
   );
@@ -74,7 +60,7 @@ const TodoInput = styled(Input)`
   width: 350px;
 `;
 
-const NewTodoContainer = styled(Flex)`
+const NewTodoWrapper = styled(Flex)`
   width: 100%;
   margin-bottom: 20px;
 `;

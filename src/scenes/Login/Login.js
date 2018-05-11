@@ -21,7 +21,7 @@ type Props = {
 
 export const LoginPage = ({ firebase, auth, loginUser, loggedIn }: Props) => {
   if (loggedIn) {
-    return <Redirect to="/todos" />;
+    return <Redirect to="/dashboard" />;
   }
   return (
     <Layout>
@@ -39,7 +39,7 @@ export const LoginPage = ({ firebase, auth, loginUser, loggedIn }: Props) => {
               </GoogleButton>
               <span>Not Authed</span>
             </div>
-          : <Redirect to="/todos" />}
+          : <Redirect to="/dashboard" />}
     </Layout>
   );
 };

@@ -39,7 +39,7 @@ const Notes = ({ notes, firebase, auth, editing, setEditing }: Props) => {
     );
   }
   return (
-    <Layout column>
+    <PaddedLayout>
       <Flex wrap>
         {(hasNotes || editing) &&
           Object.keys(notes).map(noteId => {
@@ -77,21 +77,26 @@ const Notes = ({ notes, firebase, auth, editing, setEditing }: Props) => {
             Add a new Note
           </AddNote>}
       </Flex>
-    </Layout>
+    </PaddedLayout>
   );
 };
 
+const PaddedLayout = styled(Layout)`
+  padding: 20px;
+`;
+
 const PlusIcon = styled(Icon)`
   font-size: 30px;
-  color: gray;
+  color: #000;
 `;
 
 const AddNote = styled(Flex)`
   width: 200px;
+  max-width: 250px;
   min-height: 200px;
-  color: gray;
+  color: #000;
   border-radius: 3px;
-  border: 1px dashed gray;
+  border: 1px dashed #000;
   cursor: pointer;
   margin: 10px;
 `;
