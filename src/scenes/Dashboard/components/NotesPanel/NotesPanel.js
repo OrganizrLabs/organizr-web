@@ -48,7 +48,14 @@ const NoteSlider = enhanceSlider(
     return (
       <Flex auto justify="center" align="center">
         <Button icon="left" onClick={goLeft} />
-        <StyledNote fluid simple note={userNotes[activeId]} />
+        {noteIds.map(id =>
+          <StyledNote
+            fluid
+            simple
+            note={userNotes[id]}
+            visible={id === activeId}
+          />
+        )}
         <Button icon="right" onClick={goRight} />
       </Flex>
     );
@@ -64,8 +71,10 @@ const NotesPanel = ({ className, ...otherProps }: Props) => {
 };
 
 const StyledNote = styled(Note)`
+  display: ${({ visible }) => (visible ? 'block' : 'none')};
   flex: 1 1 auto;
   margin: 0 5px;
+  height: 200px;
 `;
 
 const StyledDashboardPanel = styled(DashboardPanel)`
