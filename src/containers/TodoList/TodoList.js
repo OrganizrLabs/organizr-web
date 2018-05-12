@@ -6,6 +6,7 @@ import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import { Spin } from 'antd';
 import TodoList from 'components/TodoList';
 import { type Todo } from 'types/Todo';
+import spinnerWhileLoading from 'hocs/spinnerWhileLoading';
 
 type Props = {
   todos: {
@@ -20,13 +21,9 @@ type Props = {
  * Container component for <TodoList /> which connects to firebase 
  * and handles all the update logic
  */
-const TodoListContainer = ({
-  firebase,
-  todos,
-  auth,
-  className,
-  ...otherProps
-}: Props) => {
+const TodoListContainer = spinnerWhileLoading(
+  ({ todos }) => !isLoaded(todos)
+)(({ firebase, todos, auth, className, ...otherProps }: Props) => {
   // Delete a todo item
   const deleteTodo = id => {
     firebase.remove(`todos/${auth.uid}/${id}`);
@@ -35,18 +32,16 @@ const TodoListContainer = ({
   const setCompleted = (id: string, value: boolean) => {
     firebase.set(`todos/${auth.uid}/${id}/completed`, value);
   };
-  return isLoaded(todos)
-    ? todos[auth.uid]
-      ? <TodoList
-          todos={todos[auth.uid]}
-          setCompleted={setCompleted}
-          deleteTodo={deleteTodo}
-          className={className}
-          {...otherProps}
-        />
-      : <div>No todos</div>
-    : <Spin />;
-};
+  return todos[auth.uid]
+    ? <TodoList
+        todos={todos[auth.uid]}
+        setCompleted={setCompleted}
+        deleteTodo={deleteTodo}
+        className={className}
+        {...otherProps}
+      />
+    : <div>No todos</div>;
+});
 
 // Map the firebase todos to our components props
 const mapStateToProps = ({ firebase: { auth, data } }) => ({

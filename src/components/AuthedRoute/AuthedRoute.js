@@ -26,7 +26,7 @@ const AuthedRoute = ({ component: Component, auth, ...rest }: Props) => {
     <Route
       {...rest}
       render={props =>
-        !isLoaded(auth) || isEmpty(auth)
+        isLoaded(auth) && isEmpty(auth)
           ? <Redirect
               to={{
                 pathname: defaultRoute.path,
