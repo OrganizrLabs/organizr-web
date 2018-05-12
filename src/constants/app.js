@@ -4,6 +4,7 @@
 import * as React from 'react';
 import Dashboard from 'scenes/Dashboard';
 import Todos from 'scenes/Todos';
+import Reminders from 'scenes/Reminders';
 import Notes from 'scenes/Notes';
 import Login from 'scenes/Login';
 import Calendar from 'scenes/Calendar';
@@ -30,6 +31,13 @@ export const scenes: Array<Scene> = [
     icon: 'check-square-o',
     name: 'Todos',
     component: Todos,
+    scenes: []
+  },
+  {
+    path: '/reminders',
+    icon: 'exclamation-circle-o',
+    name: 'Reminders',
+    component: Reminders,
     scenes: []
   },
   {

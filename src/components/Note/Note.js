@@ -31,6 +31,10 @@ type Props = {
   setEditing: boolean => void,
   /** Function that is called when the note is being deleted */
   onDelete: void => void,
+  /** Whether or not it should fill the container */
+  fluid: boolean,
+  /** Whether or not to include the buttons for modifying the note */
+  simple: boolean,
   className?: string
 };
 
@@ -44,10 +48,12 @@ const Note = ({
   setText,
   editing,
   setEditing,
+  simple,
   forceEditing,
   onDelete,
   className,
-  onSave
+  onSave,
+  fluid
 }: Props) => {
   const handleSave = () => {
     if (onSave) {
@@ -59,7 +65,7 @@ const Note = ({
   const editNote = () => setEditing(true);
   const cancelEdit = () => setEditing(false);
   return (
-    <NoteContainer column className={className}>
+    <NoteContainer column auto={fluid} className={className}>
       <Flex className="note-header__container" justify="space-between">
         <Flex column className="note-header__text">
           <NoteTitle className="note-header__title">
@@ -70,14 +76,15 @@ const Note = ({
               {new Date(note.lastEdited).toDateString()}
             </NoteTime>}
         </Flex>
-        <Flex className="note-header__buttons">
-          {editing && <Button onClick={handleSave} icon="save" />}
-          {editing && <Button onClick={cancelEdit} icon="close" />}
-          {!editing && <Button onClick={editNote} icon="edit" />}
-          {!editing &&
-            !forceEditing &&
-            <Button onClick={onDelete} icon="delete" />}
-        </Flex>
+        {!simple &&
+          <Flex className="note-header__buttons">
+            {editing && <Button onClick={handleSave} icon="save" />}
+            {editing && <Button onClick={cancelEdit} icon="close" />}
+            {!editing && <Button onClick={editNote} icon="edit" />}
+            {!editing &&
+              !forceEditing &&
+              <Button onClick={onDelete} icon="delete" />}
+          </Flex>}
       </Flex>
       <NoteBody className="note-body" auto>
         {editing ? <StyledTextArea value={text} onChange={setText} /> : text}
@@ -110,10 +117,15 @@ const NoteContainer = styled(Flex)`
   padding: 10px;
   background: #fff;
   border-radius: 3px;
-  min-width: 250px;
-  min-height: 250px;
-  max-width: 350px;
-  max-height: 250px;
+  ${({ auto }) =>
+    !auto
+      ? `
+    min-width: 250px;
+    min-height: 250px;
+    max-width: 350px;
+    max-height: 250px;
+  `
+      : ``}
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px;
 `;
 

@@ -9,7 +9,7 @@ type Props = {
    * supplied as props clicking the button will also send an event
    * to Google Analytics
    */
-  onClick: Function,
+  onClick?: Function,
   /** Whether or not a drop shadow should be added to the button */
   flat?: boolean,
   /** Child - should just be a text field */

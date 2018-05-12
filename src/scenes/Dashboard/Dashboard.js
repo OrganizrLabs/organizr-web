@@ -32,7 +32,7 @@ const PanelRow = styled(Flex)`
 
 const panelStyles = css`
   width: 100%;
-  height: 250px;
+  height: 280px;
   margin-top: ${({ fullWidth }) => (fullWidth ? '20px' : '0')};
 `;
 
@@ -48,7 +48,7 @@ const StyledNotesPanel = styled(NotesPanel)`
 
 const StyledCalendarPanel = styled(CalendarPanel)`
   ${panelStyles}
-  height: 300px;
+  height: 350px;
 `;
 
 export default Dashboard;
