@@ -35,6 +35,10 @@ const createStoreWithFirebase = compose(
 )(createStore);
 
 // Creating the store
-const store = createStoreWithFirebase(reducers, applyMiddleware(logger));
+const store = createStoreWithFirebase(
+  reducers,
+  applyMiddleware(logger),
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 export default store;

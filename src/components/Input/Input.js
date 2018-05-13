@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { Icon } from 'antd';
 import styled from 'styled-components';
 import { Flex } from 'reflexbox';
@@ -9,9 +10,11 @@ type Props = {
   value: string,
   icon?: string,
   size?: 'normal' | 'large',
+  label?: string,
   onEnter?: Function,
   action?: React.Node,
   placeholder?: string,
+  primaryColor: string,
   className?: string
 };
 
@@ -38,38 +41,48 @@ class Input extends React.Component<Props> {
       value,
       icon,
       action,
+      label,
       placeholder,
+      primaryColor,
       size = 'normal',
       className
     } = this.props;
     return (
-      <InputContainer className={className}>
-        {icon &&
-          <IconContainer
-            justify="center"
-            align="center"
-            className="input-icon__container"
-          >
-            <StyledIcon type={icon} size={size} className="input-icon" />
-          </IconContainer>}
-        <StyledInput
-          type="text"
-          hasIcon={!!icon}
-          size={size}
-          onKeyPress={this.handleKeyPress}
-          value={value}
-          placeholder={placeholder}
-          onChange={this.handleChange}
-          className="input-instance"
-        />
-        {action &&
-          <ActionContainer className="input-action__container">
-            {action}
-          </ActionContainer>}
-      </InputContainer>
+      <Flex column className={className}>
+        {label &&
+          <Label primaryColor={primaryColor}>
+            {label}
+          </Label>}
+        <InputContainer className="input-container">
+          {icon &&
+            <IconContainer
+              justify="center"
+              align="center"
+              className="input-icon__container"
+            >
+              <StyledIcon type={icon} size={size} className="input-icon" />
+            </IconContainer>}
+          <StyledInput
+            type="text"
+            hasIcon={!!icon}
+            size={size}
+            onKeyPress={this.handleKeyPress}
+            value={value}
+            placeholder={placeholder}
+            onChange={this.handleChange}
+            className="input-instance"
+          />
+          {action &&
+            <ActionContainer className="input-action__container">
+              {action}
+            </ActionContainer>}
+        </InputContainer>
+      </Flex>
     );
   }
 }
+
+const Label = styled.h4`color: ${({ primaryColor }) => primaryColor};`;
 
 const ActionContainer = styled(Flex)`
   position: absolute;
@@ -85,7 +98,10 @@ const IconContainer = styled(Flex)`
   bottom: 0;
 `;
 
-const InputContainer = styled.div`position: relative;`;
+const InputContainer = styled.div`
+  width: 100%;
+  position: relative;
+`;
 
 const StyledIcon = styled(Icon)`
   font-size: 19px;
@@ -107,4 +123,6 @@ const StyledInput = styled.input`
     (size === 'large' ? `padding-left: 40px;` : `padding-left: 30px;`)};
 `;
 
-export default Input;
+const mapStateToProps = ({ app: { primaryColor } }) => ({ primaryColor });
+
+export default connect(mapStateToProps)(Input);
