@@ -12,7 +12,8 @@ type Props = {
   theme: Theme,
   primaryColor: string,
   className?: string,
-  children?: React.Node
+  children?: React.Node,
+  actions?: React.Node
 };
 
 const DashboardPanel = ({
@@ -20,6 +21,7 @@ const DashboardPanel = ({
   children,
   primaryColor,
   className,
+  actions,
   ...otherProps
 }: Props) => {
   return (
@@ -33,6 +35,9 @@ const DashboardPanel = ({
         <h3 className="dashboardpanel-header__title">
           {title}
         </h3>
+        <Flex align="center">
+          {actions}
+        </Flex>
       </Header>
       <Content auto className="dashboardpanel-content">
         {children}

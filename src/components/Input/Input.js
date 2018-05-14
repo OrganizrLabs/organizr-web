@@ -11,6 +11,7 @@ type Props = {
   icon?: string,
   size?: 'normal' | 'large',
   label?: string,
+  flat?: boolean,
   onEnter?: Function,
   action?: React.Node,
   placeholder?: string,
@@ -42,6 +43,7 @@ class Input extends React.Component<Props> {
       icon,
       action,
       label,
+      flat,
       placeholder,
       primaryColor,
       size = 'normal',
@@ -66,6 +68,7 @@ class Input extends React.Component<Props> {
             type="text"
             hasIcon={!!icon}
             size={size}
+            flat={flat}
             onKeyPress={this.handleKeyPress}
             value={value}
             placeholder={placeholder}
@@ -113,11 +116,12 @@ const StyledInput = styled.input`
   width: 100%;
   border-radius: 3px;
   padding: 8px;
-  border: none;
+  border: ${({ flat }) => (flat ? '1px solid #d9d9d9' : 'none')};
   font-family: Roboto;
   color: black;
   font-size: ${({ size }) => fontSizes[size]};
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px;
+  box-shadow: ${({ flat }) =>
+    !flat ? 'rgba(0, 0, 0, 0.1) 0px 1px 2px' : 'none'};
   ${({ hasIcon, size }) =>
     hasIcon &&
     (size === 'large' ? `padding-left: 40px;` : `padding-left: 30px;`)};

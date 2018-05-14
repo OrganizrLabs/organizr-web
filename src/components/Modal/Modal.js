@@ -4,13 +4,14 @@ import { connect } from 'react-redux';
 import ReactModal from 'react-modal';
 import ModalHeader from './components/ModalHeader';
 import { type Theme } from 'types/Theme';
+import { getTheme } from 'store/app/appSelectors';
 
 type Props = {
   children: React.Node,
   theme: Theme
 };
 
-const modalStyles = (isMobile: boolean, theme: Object) => ({
+const modalStyles = (isMobile: boolean, theme: Theme) => ({
   overlay: {
     position: 'fixed',
     display: 'flex',
@@ -59,6 +60,6 @@ const Modal = ({ children, onClose, theme, ...otherProps }: Props) => {
   );
 };
 
-const mapStateToProps = ({ app: { theme } }) => ({ theme });
+const mapStateToProps = ({ app }) => ({ theme: getTheme(app) });
 
 export default connect(mapStateToProps)(Modal);

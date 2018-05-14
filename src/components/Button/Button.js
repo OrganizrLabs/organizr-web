@@ -1,28 +1,44 @@
 // @flow
 import * as React from 'react';
 import { Button as AntButton } from 'antd';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
+import { getTheme } from 'store/app/appSelectors';
+import { type Theme } from 'types/Theme';
 
 type Props = {
-  /**
-   * Click handler for the button. If action, label, or value are
-   * supplied as props clicking the button will also send an event
-   * to Google Analytics
-   */
+  /** Click handler for the button. */
   onClick?: Function,
   /** Whether or not a drop shadow should be added to the button */
   flat?: boolean,
   /** Child - should just be a text field */
-  children?: React.Node
+  children?: React.Node,
+  /** Current theme of the application */
+  theme: Theme,
+  /** Primary color of the application */
+  primaryColor: string
 };
 
 /**
  * A simple button component build on top of the antd component
  * with some styling additions
  */
-const Button = ({ onClick, flat, children, ...other }: Props) => {
+const Button = ({
+  onClick,
+  theme,
+  primaryColor,
+  flat,
+  children,
+  ...other
+}: Props) => {
   return (
-    <StyledButton onClick={onClick} flat={flat} {...other}>
+    <StyledButton
+      onClick={onClick}
+      primaryColor={primaryColor}
+      flat={flat}
+      theme={theme}
+      {...other}
+    >
       {children}
     </StyledButton>
   );
@@ -31,8 +47,36 @@ const Button = ({ onClick, flat, children, ...other }: Props) => {
 const StyledButton = styled(AntButton)`
   height: 38px;
   padding: 0 20px;
+  text-transform: uppercase;
   font-size: 14px;
-  // text-transform: uppercase;
+  ${({ primary, flat, theme, primaryColor }) =>
+    `
+    background-color: ${theme.background};
+    color: ${theme.color};
+    ${primary &&
+      `
+      background-color: ${primaryColor}; 
+      color: #fff;
+    `}
+    ${!flat ? `box-shadow: ${theme.shadow}` : ``};
+    &:hover {
+      border-color: ${primaryColor};
+      color: ${primaryColor};
+    }
+    &:active {
+      border-color: ${primaryColor};
+      color: ${primaryColor};
+    }
+    &:focus {
+      border-color: ${primaryColor};
+      color: ${primaryColor};
+    }
+  `};
 `;
 
-export default Button;
+const mapStateToProps = ({ app, app: { primaryColor } }) => ({
+  theme: getTheme(app),
+  primaryColor
+});
+
+export default connect(mapStateToProps)(Button);
