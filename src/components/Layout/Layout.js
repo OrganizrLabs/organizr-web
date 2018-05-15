@@ -123,7 +123,6 @@ const Panel = styled(Flex)`
   margin: 0;
   background: ${({ themeName, theme }) =>
     themeName === 'light' ? '#f0f2f5' : theme.background};
-  border-radius: 5px;
   position: relative;
   z-index: 1;
 

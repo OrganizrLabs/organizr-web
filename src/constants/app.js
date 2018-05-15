@@ -7,12 +7,14 @@ import Todos from 'scenes/Todos';
 import Notes from 'scenes/Notes';
 import Login from 'scenes/Login';
 import Calendar from 'scenes/Calendar';
+import Settings from 'scenes/Settings';
 
 export type Scene = {
   path: string,
   icon: string,
   name: string,
-  component: React.Component<{}>
+  component: React.Component<{}>,
+  scenes?: Array<Scene>
 };
 
 export const title: string = 'Organizr';
@@ -44,6 +46,13 @@ export const scenes: Array<Scene> = [
     icon: 'calendar',
     name: 'Calendar',
     component: Calendar,
+    scenes: []
+  },
+  {
+    path: '/settings',
+    icon: 'setting',
+    name: 'Settings',
+    component: Settings,
     scenes: []
   }
 ];

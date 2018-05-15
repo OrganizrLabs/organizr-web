@@ -176,7 +176,6 @@ const HeaderIcon = styled(Icon)`
 `;
 
 const SidebarHeader = styled(Flex)`
-  border-right: 1px solid #e9e9e9;
   ${({ collapsed, theme }) => `
     height: 55px;
     z-index: 2;
@@ -190,7 +189,7 @@ const SidebarHeader = styled(Flex)`
 const CollapseButton = styled(Button)`
   ${media.tablet`display: none;`}
   ${({ primaryColor }) => `
-    height: 50px;
+    height: 49px;
     border-radius: 0;
     box-shadow: none;
     border-top: 1px solid #bfbfbf;

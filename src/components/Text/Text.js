@@ -7,14 +7,14 @@ type Props = {
   children: React.Node,
   className?: string,
   color?: Color,
-  size: FontSize,
+  size?: FontSize
 };
 
 const Text = ({
   children,
   className,
   size = 'normal',
-  color = 'black',
+  color = 'black'
 }: Props) =>
   <Span size={size} color={color} className={className}>
     {children}

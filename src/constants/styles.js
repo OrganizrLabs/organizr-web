@@ -20,6 +20,45 @@ export const colors = {
   black: '#000000'
 };
 
+export const primaryColors = [
+  {
+    title: 'Green',
+    color: '#25b47d'
+  },
+  {
+    title: 'Teal',
+    color: '#00BCD4'
+  },
+  {
+    title: 'Light Blue',
+    color: '#2979ff'
+  },
+  {
+    title: 'Blue',
+    color: '#1565c0'
+  },
+  {
+    title: 'Indigo',
+    color: '#673ab7'
+  },
+  {
+    title: 'Orange',
+    color: '#f57c00'
+  },
+  {
+    title: 'Red',
+    color: '#f44336'
+  },
+  {
+    title: 'Pink',
+    color: '#ec407a'
+  },
+  {
+    title: 'Slate',
+    color: '#455a64'
+  }
+];
+
 export const themes = {
   light: {
     background: '#fff',
