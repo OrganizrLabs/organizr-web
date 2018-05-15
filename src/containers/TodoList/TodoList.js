@@ -2,11 +2,11 @@
 import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { firebaseConnect, isLoaded } from 'react-redux-firebase';
-import { Spin } from 'antd';
+import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import TodoList from 'components/TodoList';
 import { type Todo } from 'types/Todo';
 import spinnerWhileLoading from 'hocs/spinnerWhileLoading';
+import messageIfEmpty from 'hocs/messageIfEmpty';
 
 type Props = {
   todos: {
@@ -21,9 +21,13 @@ type Props = {
  * Container component for <TodoList /> which connects to firebase 
  * and handles all the update logic
  */
-const TodoListContainer = spinnerWhileLoading(
-  ({ todos }) => !isLoaded(todos)
-)(({ firebase, todos, auth, className, ...otherProps }: Props) => {
+const TodoListContainer = ({
+  firebase,
+  todos,
+  auth,
+  className,
+  ...otherProps
+}: Props) => {
   // Delete a todo item
   const deleteTodo = id => {
     firebase.remove(`todos/${auth.uid}/${id}`);
@@ -32,16 +36,16 @@ const TodoListContainer = spinnerWhileLoading(
   const setCompleted = (id: string, value: boolean) => {
     firebase.set(`todos/${auth.uid}/${id}/completed`, value);
   };
-  return todos[auth.uid]
-    ? <TodoList
-        todos={todos[auth.uid]}
-        setCompleted={setCompleted}
-        deleteTodo={deleteTodo}
-        className={className}
-        {...otherProps}
-      />
-    : <div>No todos</div>;
-});
+  return (
+    <TodoList
+      todos={todos[auth.uid]}
+      setCompleted={setCompleted}
+      deleteTodo={deleteTodo}
+      className={className}
+      {...otherProps}
+    />
+  );
+};
 
 // Map the firebase todos to our components props
 const mapStateToProps = ({ firebase: { auth, data } }) => ({
@@ -49,6 +53,13 @@ const mapStateToProps = ({ firebase: { auth, data } }) => ({
   auth
 });
 
-export default compose(firebaseConnect(['todos']), connect(mapStateToProps))(
-  TodoListContainer
-);
+export default compose(
+  firebaseConnect(['todos']),
+  connect(mapStateToProps),
+  spinnerWhileLoading(({ todos }) => !isLoaded(todos)),
+  messageIfEmpty(
+    ({ todos, auth }) =>
+      isLoaded(todos) && (isEmpty(todos) || !todos[auth.uid]),
+    'No todos'
+  )
+)(TodoListContainer);

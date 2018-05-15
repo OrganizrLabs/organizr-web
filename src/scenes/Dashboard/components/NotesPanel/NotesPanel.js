@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import { firebaseConnect, isLoaded } from 'react-redux-firebase';
+import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withState } from 'recompose';
@@ -32,7 +32,8 @@ type NoteSliderProps = Props & {
 const enhanceSlider = compose(
   spinnerWhileLoading(({ notes, auth }) => !isLoaded(notes) || !isLoaded(auth)),
   messageIfEmpty(
-    ({ notes, auth }) => isLoaded(notes) && isLoaded(auth) && !notes[auth.uid],
+    ({ notes, auth }) =>
+      isLoaded(notes) && isLoaded(auth) && (isEmpty(notes) || !notes[auth.uid]),
     'No Notes'
   )
 );
@@ -64,7 +65,7 @@ const NotesPanel = (props: Props) => {
     goRight,
     actions = null;
   // Need to wait until the data is loaded to do all of this
-  if (isLoaded(auth) && isLoaded(notes)) {
+  if (!isEmpty(notes) && isLoaded(auth) && isLoaded(notes)) {
     userNotes = notes[auth.uid];
     noteIds = Object.keys(userNotes);
     if (!userNotes) return <div>No Notes</div>;
