@@ -2,7 +2,9 @@
 import * as React from 'react';
 import { Menu, Dropdown, Icon } from 'antd';
 import { Link } from 'react-router-dom';
-import { firebaseConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { Flex } from 'reflexbox';
 import styled from 'styled-components';
 import { title } from 'constants/app';
@@ -10,14 +12,12 @@ import logo from 'assets/logo.png';
 
 type Props = {
   firebase: Object,
-  primaryColor: string
+  primaryColor: string,
+  auth: Object
 };
 
-const Header = ({ history, primaryColor, firebase }: Props) => {
-  const logout = () => {
-    console.log(firebase);
-    firebase.logout();
-  };
+const Header = ({ history, primaryColor, auth, firebase }: Props) => {
+  const logout = () => firebase.logout();
   // Define the user menu markup
   const userMenu = (
     <Menu>
@@ -27,10 +27,13 @@ const Header = ({ history, primaryColor, firebase }: Props) => {
       <Menu.Item key="1">
         <a href="http://www.taobao.com/">2nd menu item</a>
       </Menu.Item>
-      <Menu.Divider />
-      <Menu.Item key="3">
-        <span onClick={logout}>Logout</span>
-      </Menu.Item>
+      {isLoaded(auth) &&
+      !isEmpty(auth) && [
+        <Menu.Divider />,
+        <Menu.Item key="3">
+          <span onClick={logout}>Logout</span>
+        </Menu.Item>
+      ]}
     </Menu>
   );
   return (
@@ -100,4 +103,6 @@ const MFSLogo = styled.img`
   margin-right: 10px;
 `;
 
-export default firebaseConnect()(Header);
+const mapStateToProps = ({ firebase: { auth } }) => ({ auth });
+
+export default compose(firebaseConnect(), connect(mapStateToProps))(Header);
