@@ -3,7 +3,7 @@ import * as React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import {
-  HashRouter as Router,
+  BrowserRouter as Router,
   Redirect,
   Switch,
   Route

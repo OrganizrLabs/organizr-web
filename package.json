@@ -39,7 +39,7 @@
     "flow": "flow",
     "flow-typed": "flow-typed install",
     "predeploy": "npm run build",
-    "deploy": "node scripts/deploy.js"
+    "deploy": "firebase deploy"
   },
   "jest": {
     "collectCoverageFrom": ["src/**/*.{js,jsx}"],
