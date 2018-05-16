@@ -2,6 +2,8 @@
 import { combineReducers, createStore, applyMiddleware, compose } from 'redux';
 import firebase from 'firebase';
 import { reactReduxFirebase, firebaseReducer } from 'react-redux-firebase';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 import logger from 'redux-logger';
 
 // reducer imports
@@ -13,6 +15,13 @@ const reducers = combineReducers({
   user: userReducer,
   firebase: firebaseReducer
 });
+
+const persistConfig = {
+  key: 'app',
+  storage
+};
+
+const persistedReducer = persistReducer(persistConfig, reducers);
 
 // Initialize firebase
 firebase.initializeApp({
@@ -35,10 +44,11 @@ const createStoreWithFirebase = compose(
 )(createStore);
 
 // Creating the store
-const store = createStoreWithFirebase(
-  reducers,
+export const store = createStoreWithFirebase(
+  persistedReducer,
   applyMiddleware(logger),
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
-export default store;
+// Persister for the store
+export const persistor = persistStore(store);
