@@ -20,6 +20,9 @@ type Props = {
   options?: Object,
   /** Array of event objects to be passed into the calendar */
   events: Array<Object>,
+  /** Whether or not to hide the control panel along the top */
+  hideControls: boolean,
+  className?: string,
   firebase: Object,
   event: Object,
   setEvent: Object => void,
@@ -97,6 +100,8 @@ class Calendar extends React.Component<Props> {
       id,
       height,
       event,
+      hideControls,
+      className,
       newEventModalVisible,
       setNewEventModalVisible
     } = this.props;
@@ -104,15 +109,15 @@ class Calendar extends React.Component<Props> {
       setNewEventModalVisible(false);
     };
     return (
-      <CalendarContainer column height={height}>
+      <CalendarContainer column height={height} className={className}>
         {event &&
           <NewEventModal
             isOpen={newEventModalVisible}
             onClose={closeNewEventModal}
             event={event}
           />}
-        {this.renderCalendarTools()}
-        <CalendarMount id={id} />
+        {!hideControls && this.renderCalendarTools()}
+        <CalendarMount id={id} hideControls={hideControls} />
       </CalendarContainer>
     );
   }
@@ -143,7 +148,8 @@ const CalendarContainer = styled(Flex)`
 
 const CalendarMount = styled.div`
   width: 100%;
-  height: calc(100% - 60px);
+  height: ${({ hideControls }) =>
+    !hideControls ? 'calc(100% - 60px)' : '100%'};
 `;
 
 export default compose(

@@ -12,7 +12,8 @@ const CalendarPanel = ({ className }: Props) => {
     <DashboardPanel title="Calendar" className={className}>
       <Calendar
         id="dashboard-calendar"
-        options={{ defaultView: 'month', month: { visibleWeeksCount: 1 } }}
+        hideControls
+        options={{ defaultView: 'week' }}
         height="100%"
       />
     </DashboardPanel>
