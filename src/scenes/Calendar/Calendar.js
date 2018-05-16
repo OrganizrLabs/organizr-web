@@ -14,7 +14,9 @@ type Props = {
   auth: Object
 };
 
-const CalendarScene = ({ auth, events }: Props) => {
+const CalendarContent = spinnerWhileLoading(
+  ({ events, auth }) => !isLoaded(auth) || !isLoaded(events)
+)(({ auth, events }: Props) => {
   const eventList =
     !isEmpty(events) && events[auth.uid]
       ? Object.keys(events[auth.uid]).map(eventId => ({
@@ -26,9 +28,13 @@ const CalendarScene = ({ auth, events }: Props) => {
           ...events[auth.uid][eventId]
         }))
       : [];
+  return <Calendar id="calendar" events={eventList} />;
+});
+
+const CalendarScene = (props: Props) => {
   return (
     <PaddedLayout>
-      <Calendar id="calendar" events={eventList} />
+      <CalendarContent {...props} />
     </PaddedLayout>
   );
 };
@@ -42,10 +48,6 @@ const mapStateToProps = ({ firebase: { data, auth } }) => ({
   auth
 });
 
-export default compose(
-  firebaseConnect(['events']),
-  connect(mapStateToProps),
-  spinnerWhileLoading(
-    ({ events, auth }) => !isLoaded(auth) || !isLoaded(events)
-  )
-)(CalendarScene);
+export default compose(firebaseConnect(['events']), connect(mapStateToProps))(
+  CalendarScene
+);
