@@ -3,7 +3,6 @@ import * as React from 'react';
 import { Flex } from 'reflexbox';
 import { connect } from 'react-redux';
 import Button from 'components/Button';
-import Text from 'components/Text';
 import styled from 'styled-components';
 
 type Props = {
@@ -20,15 +19,18 @@ type Props = {
  * in `<Modal />` and passed the onClose prop. This is a good example of
  * handling React Children in case it needs to be done for other components
  */
-const ModalHeader = ({ title, onClose, primaryColor }: Props) =>
-  <Header primary={primaryColor}>
-    <Flex auto>
-      <ModalTitle size="large">
-        {title}
-      </ModalTitle>
-    </Flex>
-    <CloseButton icon="close" onClick={onClose} />
-  </Header>;
+const ModalHeader = ({ title, onClose, primaryColor }: Props) => {
+  return (
+    <Header primary={primaryColor}>
+      <Flex auto>
+        <ModalTitle size="large">
+          {title}
+        </ModalTitle>
+      </Flex>
+      <CloseButton icon="close" onClick={onClose} />
+    </Header>
+  );
+};
 
 const CloseButton = styled(Button)`
   background: none;

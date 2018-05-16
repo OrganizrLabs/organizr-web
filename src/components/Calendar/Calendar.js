@@ -1,13 +1,15 @@
 // @flow
 import * as React from 'react';
 import { compose } from 'redux';
-import { connect } from 'react-redux';
-import { firebaseConnect, isLoaded } from 'react-redux-firebase';
 import { defaultProps, withState } from 'recompose';
+import { Select } from 'antd';
 import TuiCalendar from 'tui-calendar';
+import { Flex } from 'reflexbox';
 import styled from 'styled-components';
-import spinnerWhileLoading from 'hocs/spinnerWhileLoading';
 import NewEventModal from './components/NewEventModal';
+import Button from 'components/Button';
+
+const Option = Select.Option;
 
 type Props = {
   /** Unique id for the calendar instance */
@@ -16,6 +18,8 @@ type Props = {
   height?: string,
   /** Tui Calendar options object */
   options?: Object,
+  /** Array of event objects to be passed into the calendar */
+  events: Array<Object>,
   firebase: Object,
   event: Object,
   setEvent: Object => void,
@@ -29,7 +33,7 @@ class Calendar extends React.Component<Props> {
   calendar: Object;
 
   componentDidMount() {
-    const { id, options } = this.props;
+    const { id, options, events } = this.props;
     this.calendar = new TuiCalendar(`#${id}`, {
       defaultView: 'month',
       month: {
@@ -37,33 +41,13 @@ class Calendar extends React.Component<Props> {
       },
       ...options
     });
-    // create some sample events:
-    this.calendar.createSchedules([
-      {
-        id: '1',
-        calendarId: '1',
-        title: 'my schedule',
-        category: 'time',
-        dueDateClass: '',
-        start: '2018-05-12T22:30:00+09:00',
-        end: '2018-05-13T02:30:00+09:00'
-      },
-      {
-        id: '2',
-        calendarId: '1',
-        title: 'second schedule',
-        category: 'time',
-        dueDateClass: '',
-        start: '2018-05-11T17:30:00+09:00',
-        end: '2018-05-11T17:31:00+09:00',
-        isReadOnly: true // schedule is read-only
-      }
-    ]);
+    this.calendar.createSchedules(events);
     this.createCalendarListeners();
   }
 
   createCalendarListeners = () => {
     const { setNewEventModalVisible, setEvent } = this.props;
+    // Before a schedule is created
     this.calendar.on('beforeCreateSchedule', function(event) {
       console.log(event);
       if (event.triggerEventName === 'mouseup') {
@@ -74,9 +58,38 @@ class Calendar extends React.Component<Props> {
         // open writing detail schedule popup
         console.log('doubleclicked');
       }
-
-      // calendar.createSchedules([schedule]);
+      // when a schedule is clicked
+      // this.calendar.on('clickSchedule', function(event) {
+      //   var schedule = event.schedule;
+      //   console.log(event);
+      // });
     });
+  };
+
+  renderCalendarTools = () => {
+    const handleViewChange = view => {
+      this.calendar.changeView(view, true);
+    };
+    const next = () => this.calendar.next();
+    const prev = () => this.calendar.prev();
+    const today = () => this.calendar.today();
+    return (
+      <CalendarTools auto align="center">
+        <ViewSelect
+          size="large"
+          defaultValue="month"
+          style={{ width: 120 }}
+          onChange={handleViewChange}
+        >
+          <Option value="day">Day</Option>
+          <Option value="week">Week</Option>
+          <Option value="month">Month</Option>
+        </ViewSelect>
+        <TodayButton onClick={today}>Today</TodayButton>
+        <RoundButton icon="left" onClick={prev} />
+        <RoundButton icon="right" onClick={next} />
+      </CalendarTools>
+    );
   };
 
   render() {
@@ -87,39 +100,53 @@ class Calendar extends React.Component<Props> {
       newEventModalVisible,
       setNewEventModalVisible
     } = this.props;
-    const closeNewEventModal = () => setNewEventModalVisible(false);
+    const closeNewEventModal = () => {
+      setNewEventModalVisible(false);
+    };
     return (
-      <CalendarContainer height={height}>
+      <CalendarContainer column height={height}>
         {event &&
-          newEventModalVisible &&
-          <NewEventModal onClose={closeNewEventModal} event={event} />}
+          <NewEventModal
+            isOpen={newEventModalVisible}
+            onClose={closeNewEventModal}
+            event={event}
+          />}
+        {this.renderCalendarTools()}
         <CalendarMount id={id} />
       </CalendarContainer>
     );
   }
 }
 
-const CalendarContainer = styled.div`
+const TodayButton = styled(Button)`
+  margin: 0 3px;
+`;
+
+const RoundButton = styled(Button)`
+  width: 39px;
+  border-radius: 50%;
+  margin: 0 3px;
+`;
+
+const ViewSelect = styled(Select)`
+  margin-right: 3px;
+`;
+
+const CalendarTools = styled(Flex)`
+  min-height: 60px;
+`;
+
+const CalendarContainer = styled(Flex)`
   width: 100%;
   height: ${({ height }) => height};
 `;
 
 const CalendarMount = styled.div`
   width: 100%;
-  height: 100%;
+  height: calc(100% - 60px);
 `;
 
-const mapStateToProps = ({ firebase: { data, auth } }) => ({
-  events: data.events,
-  auth
-});
-
 export default compose(
-  firebaseConnect(['events']),
-  connect(mapStateToProps),
-  spinnerWhileLoading(
-    ({ events, auth }) => !isLoaded(events) || !isLoaded(auth)
-  ),
   withState('event', 'setEvent', null),
   withState('newEventModalVisible', 'setNewEventModalVisible', false)
 )(Calendar);

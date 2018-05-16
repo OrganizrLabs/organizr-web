@@ -2,18 +2,34 @@
 import * as React from 'react';
 import { compose } from 'redux';
 import { DatePicker, TimePicker } from 'antd';
-import { withState } from 'recompose';
+import { connect } from 'react-redux';
+import { firebaseConnect } from 'react-redux-firebase';
+import { withStateHandlers } from 'recompose';
 import { Flex } from 'reflexbox';
 import styled, { css } from 'styled-components';
 import Modal, { ModalHeader, ModalBody, ModalFooter } from 'components/Modal';
 import Input from 'components/Input';
 import Button from 'components/Button';
 import Labelled from 'components/Labelled';
+import moment from 'moment';
+
+window.moment = moment;
 
 type Props = {
   onClose: Function,
   event: Object,
   title: string,
+  isOpen: boolean,
+  auth: Object,
+  firebase: Object,
+  startDate: string,
+  startTime: string,
+  endDate: string,
+  endTime: string,
+  setStartDate: string => void,
+  setStartTime: string => void,
+  setEndDate: string => void,
+  setEndTime: string => void,
   setTitle: string => void,
   description: string,
   setDescription: string => void
@@ -24,17 +40,44 @@ const NewEventModal = ({
   setTitle,
   description,
   setDescription,
+  startDate,
+  startTime,
+  endDate,
+  endTime,
+  setStartDate,
+  setStartTime,
+  setEndDate,
+  setEndTime,
   onClose,
+  firebase,
+  auth,
+  isOpen,
   event
 }: Props) => {
-  const onDateSelect = (date, dateString) => {
-    console.log(date, dateString);
+  console.log(startTime, endTime);
+  const eventStartDate = moment(event.start._date);
+  const eventEndDate = moment(event.end._date);
+  const resetFieldsAndClose = () => {
+    setTitle('');
+    setDescription('');
+    onClose();
   };
-  const onTimeSelect = (time, timeString) => {
-    console.log(time, timeString);
+  const addEvent = () => {
+    // Add the event
+    if (startDate !== '' && endDate !== null) {
+      firebase.push(`/events/${auth.uid}`, {
+        title,
+        description,
+        start: moment(`${startDate} ${startTime}`).format(),
+        end: moment(`${endDate} ${endTime}`).format()
+      });
+      resetFieldsAndClose();
+    } else {
+      console.log('Error adding event');
+    }
   };
   return (
-    <Modal onClose={onClose}>
+    <Modal onClose={onClose} isOpen={isOpen}>
       <ModalHeader title="Add Event" />
       <ModalBody>
         <StyledInput
@@ -54,30 +97,41 @@ const NewEventModal = ({
         />
         <LabelledSection label="Start Date">
           <Flex>
-            <StyledDatePicker size="large" onChange={onDateSelect} />
+            <StyledDatePicker
+              size="large"
+              defaultValue={eventStartDate}
+              onChange={setStartDate}
+            />
             <StyledTimePicker
               size="large"
               use12Hours
               format="h:mm a"
-              onChange={onTimeSelect}
+              defaultValue={eventStartDate}
+              onChange={setStartTime}
             />
           </Flex>
         </LabelledSection>
         <LabelledSection label="End Date">
           <Flex>
-            <StyledDatePicker size="large" onChange={onDateSelect} />
+            <StyledDatePicker
+              size="large"
+              defaultValue={eventEndDate}
+              onChange={setEndDate}
+            />
             <StyledTimePicker
               size="large"
-              use12Hours
-              format="h:mm a"
-              onChange={onTimeSelect}
+              format="HH:MM"
+              defaultValue={eventEndDate}
+              onChange={setEndTime}
             />
           </Flex>
         </LabelledSection>
       </ModalBody>
       <ModalFooter>
-        <CancelButton>Cancel</CancelButton>
-        <Button primary>Add Event</Button>
+        <CancelButton onClick={resetFieldsAndClose}>Cancel</CancelButton>
+        <Button primary onClick={addEvent}>
+          Add Event
+        </Button>
       </ModalFooter>
     </Modal>
   );
@@ -117,7 +171,27 @@ const StyledInput = styled(Input)`
   margin-top: ${({ first }) => (!first ? '10px' : '0')};
 `;
 
+const mapStateToProps = ({ firebase: { auth } }) => ({ auth });
+
 export default compose(
-  withState('title', 'setTitle', ''),
-  withState('description', 'setDescription', '')
+  firebaseConnect(['events']),
+  connect(mapStateToProps),
+  withStateHandlers(
+    ({ event }) => ({
+      title: '',
+      description: '',
+      startDate: moment(event.start._date).format('YYYY-MM-DD'),
+      startTime: moment(event.start._date).format('HH:MM'),
+      endDate: moment(event.end._date).format('YYYY-MM-DD'),
+      endTime: moment(event.end._date).format('HH:MM')
+    }),
+    {
+      setTitle: () => title => ({ title }),
+      setDescription: () => description => ({ description }),
+      setStartDate: () => (_, startDate) => ({ startDate }),
+      setStartTime: () => (_, startTime) => ({ startTime }),
+      setEndDate: () => (_, endDate) => ({ endDate }),
+      setEndTime: () => (_, endTime) => ({ endTime })
+    }
+  )
 )(NewEventModal);

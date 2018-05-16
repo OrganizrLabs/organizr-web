@@ -8,7 +8,9 @@ import { getTheme } from 'store/app/appSelectors';
 
 type Props = {
   children: React.Node,
-  theme: Theme
+  theme: Theme,
+  onClose: Function,
+  isOpen: boolean
 };
 
 const modalStyles = (isMobile: boolean, theme: Theme) => ({
@@ -38,11 +40,11 @@ const modalStyles = (isMobile: boolean, theme: Theme) => ({
   }
 });
 
-const Modal = ({ children, onClose, theme, ...otherProps }: Props) => {
+const Modal = ({ children, isOpen, onClose, theme, ...otherProps }: Props) => {
   const style = modalStyles(false, theme);
   return (
     <ReactModal
-      isOpen
+      isOpen={isOpen}
       onRequestClose={onClose}
       closeTimeoutMS={5}
       style={style}

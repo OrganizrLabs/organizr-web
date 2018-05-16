@@ -1,13 +1,34 @@
 // @flow
 import * as React from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { firebaseConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import Layout from 'components/Layout';
 import Calendar from 'components/Calendar';
 import styled from 'styled-components';
+import { type Event } from 'types/Event';
+import spinnerWhileLoading from 'hocs/spinnerWhileLoading';
 
-const CalendarScene = () => {
+type Props = {
+  events: Array<Event>,
+  auth: Object
+};
+
+const CalendarScene = ({ auth, events }: Props) => {
+  const eventList =
+    !isEmpty(events) && events[auth.uid]
+      ? Object.keys(events[auth.uid]).map(eventId => ({
+          id: eventId,
+          calendarId: '1',
+          category: 'time',
+          dueDateClass: '',
+          isReadOnly: true,
+          ...events[auth.uid][eventId]
+        }))
+      : [];
   return (
     <PaddedLayout>
-      <Calendar id="calendar" />
+      <Calendar id="calendar" events={eventList} />
     </PaddedLayout>
   );
 };
@@ -16,4 +37,15 @@ const PaddedLayout = styled(Layout)`
   padding: 20px;
 `;
 
-export default CalendarScene;
+const mapStateToProps = ({ firebase: { data, auth } }) => ({
+  events: data.events,
+  auth
+});
+
+export default compose(
+  firebaseConnect(['events']),
+  connect(mapStateToProps),
+  spinnerWhileLoading(
+    ({ events, auth }) => !isLoaded(auth) || !isLoaded(events)
+  )
+)(CalendarScene);
