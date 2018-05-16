@@ -143,7 +143,7 @@ const Panel = styled(Flex)`
 `;
 
 const mapStateToProps = ({
-  firebase,
+  firebase: { auth },
   app,
   app: { sidebarVisible, sidebarCollapsed, primaryColor, theme }
 }) => ({
@@ -152,7 +152,7 @@ const mapStateToProps = ({
   primaryColor,
   theme: getTheme(app),
   themeName: theme,
-  auth: firebase.auth
+  auth
 });
 
 const mapDispatchToProps = (dispatch: Function) => ({

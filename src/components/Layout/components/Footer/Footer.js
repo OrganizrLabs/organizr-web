@@ -2,11 +2,14 @@
 import * as React from 'react';
 import { Breadcrumb } from 'antd';
 import { withRouter } from 'react-router';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Flex } from 'reflexbox';
 import styled from 'styled-components';
 import { scenes } from 'constants/app';
 import { type Theme } from 'types/Theme';
+import { getTheme } from 'store/app/appSelectors';
 
 type Props = {
   location: Object,
@@ -16,7 +19,11 @@ type Props = {
 
 const Footer = ({ location, theme, themeName }: Props) => {
   const FooterLink = props =>
-    <StyledLink active={location.pathname === props.to} {...props}>
+    <StyledLink
+      active={location.pathname === props.to}
+      theme={theme}
+      {...props}
+    >
       {props.children}
     </StyledLink>;
   return (
@@ -35,7 +42,8 @@ const Footer = ({ location, theme, themeName }: Props) => {
 };
 
 const StyledLink = styled(Link)`
-  ${({ active }) => active && `font-weight: bold;`}
+  font-weight: ${({ active }) => (active ? 'bold' : 'normal')}
+  color: ${({ theme }) => theme.color} !important;
 `;
 
 const FooterLinks = styled(Flex)`
@@ -45,4 +53,9 @@ const FooterLinks = styled(Flex)`
   border-top: 1px solid #d6d6d6;
 `;
 
-export default withRouter(Footer);
+const mapStateToProps = ({ app }) => ({
+  theme: getTheme(app),
+  themeName: app.theme
+});
+
+export default compose(connect(mapStateToProps), withRouter)(Footer);

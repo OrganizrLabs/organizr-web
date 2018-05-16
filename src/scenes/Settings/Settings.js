@@ -9,10 +9,13 @@ import Panel from 'components/Panel';
 import Text from 'components/Text';
 import { themes, primaryColors } from 'constants/styles';
 import { changeTheme, changePrimaryColor } from 'store/app/appActions';
+import { getTheme } from 'store/app/appSelectors';
+import { type Theme } from 'types/Theme';
 
 const Option = Select.Option;
 
 type Props = {
+  theme: Theme,
   themeName: string,
   onThemeChange: string => void,
   primaryColor: string,
@@ -21,12 +24,13 @@ type Props = {
 
 type SettingRowProps = {
   title: string,
-  content: React.Node
+  content: React.Node,
+  theme: Theme
 };
 
-const SettingRow = ({ title, content }: SettingRowProps) =>
+const SettingRow = ({ title, content, theme }: SettingRowProps) =>
   <Row justify="space-between">
-    <Text>
+    <Text color={theme.color}>
       {title}
     </Text>
     <Flex>
@@ -35,6 +39,7 @@ const SettingRow = ({ title, content }: SettingRowProps) =>
   </Row>;
 
 const Settings = ({
+  theme,
   themeName,
   onThemeChange,
   primaryColor,
@@ -72,8 +77,12 @@ const Settings = ({
   return (
     <Layout>
       <Panel title="Settings">
-        <SettingRow title="Theme" content={themeContent} />
-        <SettingRow title="Primary Color" content={primaryColorContent} />
+        <SettingRow theme={theme} title="Theme" content={themeContent} />
+        <SettingRow
+          theme={theme}
+          title="Primary Color"
+          content={primaryColorContent}
+        />
       </Panel>
     </Layout>
   );
@@ -87,7 +96,8 @@ const SettingSelect = styled(Select)`
   width: 150px;
 `;
 
-const mapStateToProps = ({ app: { theme, primaryColor } }) => ({
+const mapStateToProps = ({ app, app: { theme, primaryColor } }) => ({
+  theme: getTheme(app),
   themeName: theme,
   primaryColor
 });

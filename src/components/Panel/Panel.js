@@ -22,15 +22,16 @@ const Panel = ({
   primaryColor,
   ...otherProps
 }: Props) => {
+  console.log(primaryColor);
   return (
     <PanelWrapper auto column className={className} {...otherProps}>
-      <Content auto column theme={theme}>
+      <PanelContent auto column theme={theme}>
         {title &&
           <Title primaryColor={primaryColor}>
             {title}
           </Title>}
         {children}
-      </Content>
+      </PanelContent>
     </PanelWrapper>
   );
 };
@@ -46,12 +47,13 @@ const PanelWrapper = styled(Flex)`
   width: 100%;
 `;
 
-const Content = styled(Flex)`
+const PanelContent = styled(Flex)`
   margin: 30px;
   border-radius: 3px;
   padding: 15px;
   background: ${({ theme }) => theme.background};
-  rgba(0, 0, 0, 0.1) 0px 1px 2px';
+  color: ${({ theme }) => theme.color};
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px;
 `;
 
 const mapStateToProps = ({ app, app: { primaryColor } }) => ({
